@@ -75,6 +75,6 @@
 
   <!-- Main Content -->
   <main class="flex-1 p-6 md:p-8 max-w-4xl">
-    <slot />
+    {@render children()}
   </main>
 </div>
