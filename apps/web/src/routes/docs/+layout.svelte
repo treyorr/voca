@@ -1,5 +1,7 @@
 <script lang="ts">
   import { page } from '$app/state';
+
+  let { children } = $props();
   
   // Use $derived for reactive current path
   const currentPath = $derived(page.url.pathname);
@@ -75,6 +77,6 @@
 
   <!-- Main Content -->
   <main class="flex-1 p-6 md:p-8 max-w-4xl">
-    {@render children()}
+    {@render children?.()}
   </main>
 </div>
