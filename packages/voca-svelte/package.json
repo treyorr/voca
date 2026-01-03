@@ -2,12 +2,12 @@
     "name": "@voca/svelte",
     "version": "0.1.0",
     "description": "Svelte 5 Runes wrapper for Voca Client SDK",
-    "svelte": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "svelte": "./dist/index.svelte.js",
+    "types": "./dist/index.svelte.d.ts",
     "exports": {
         ".": {
-            "types": "./dist/index.d.ts",
-            "svelte": "./dist/index.js"
+            "types": "./dist/index.svelte.d.ts",
+            "svelte": "./dist/index.svelte.js"
         }
     },
     "files": [

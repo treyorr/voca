@@ -9,7 +9,7 @@ Thank you for your interest in contributing to Voca! This document provides guid
 - [mise](https://mise.jdx.dev/) - Dev environment manager (handles Rust, Bun, etc.)
 - Or manually install:
   - Rust 1.92+
-  - Bun 1.1.42+
+  - Bun 1.3.5+
 
 ### Getting Started
 
