@@ -9,7 +9,8 @@
         ".": "./src/index.svelte.ts"
     },
     "scripts": {
-        "check": "svelte-check --tsconfig ./tsconfig.json"
+        "check": "svelte-check --tsconfig ./tsconfig.json",
+        "build": "echo 'No build required for voca-svelte'"
     },
     "peerDependencies": {
         "svelte": "^5.0.0"
