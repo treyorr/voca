@@ -22,11 +22,7 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Configure npm authentication
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-          echo "registry=https://registry.npmjs.org/" >> .npmrc
-          cp .npmrc ~/.npmrc
+
 
       - name: Build packages
         run: |
