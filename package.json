@@ -6,17 +6,13 @@
         "apps/*"
     ],
     "scripts": {
-        "build": "npm run build --workspaces --if-present",
-        "dev": "npm run dev --workspaces --if-present",
-        "lint": "npm run lint --workspaces --if-present"
+        "build": "bun run --filter='*' build",
+        "dev": "bun run --filter='*' dev",
+        "lint": "bun run --filter='*' lint"
     },
     "author": "Trey Orr",
     "license": "MIT",
     "devDependencies": {
         "typescript": "^5.9.3"
-    },
-    "dependencies": {
-        "@sveltejs/adapter-node": "0.0.18",
-        "@sveltejs/kit": "^2.49.2"
     }
 }

@@ -7,6 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Bun
+# bun.lockb is tracked in git
+node_modules/.cache/
+
 # Build outputs
 dist/
 build/

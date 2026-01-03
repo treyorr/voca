@@ -1,18 +1,17 @@
 [tools]
 rust = "1.92.0"
-node = "25.2.1"
-npm = "11.7.0"
+bun = "1.1.42"
 
 # ===== Setup =====
 
 [tasks.install]
-description = "Install all npm dependencies"
-run = "npm install"
+description = "Install all dependencies"
+run = "bun install"
 
 [tasks.setup]
 description = "Full setup for fresh clone"
 run = """
-npm install
+bun install
 mise run build-packages
 """
 
@@ -21,12 +20,12 @@ mise run build-packages
 [tasks.build-client]
 description = "Build @voca/client package"
 dir = "packages/voca-client"
-run = "npm run build"
+run = "bun run build"
 
 [tasks.build-react]
 description = "Build @voca/react package"
 dir = "packages/voca-react"
-run = "npm run build"
+run = "bun run build"
 wait_for = ["build-client"]
 
 [tasks.build-packages]
@@ -41,7 +40,7 @@ run = "cargo build --release"
 [tasks.build-web]
 description = "Build web app"
 dir = "apps/web"
-run = "npm run build"
+run = "bun run build"
 wait_for = ["build-packages"]
 
 # ===== Development =====
@@ -52,7 +51,7 @@ run = "cd services/signaling && RUST_LOG=info cargo run"
 
 [tasks.dev-frontend]
 description = "Run frontend dev server"
-run = "cd apps/web && npm run dev"
+run = "cd apps/web && bun run dev"
 
 [tasks.dev]
 description = "Run frontend and backend in parallel"
@@ -73,9 +72,9 @@ mise run build-web
 [tasks.lint]
 description = "Run linting on all packages"
 run = """
-npx tsc --noEmit -p packages/voca-client
-npx tsc --noEmit -p packages/voca-svelte
-npx tsc --noEmit -p packages/voca-react
+bunx tsc --noEmit -p packages/voca-client
+bunx tsc --noEmit -p packages/voca-svelte
+bunx tsc --noEmit -p packages/voca-react
 """
 
 [tasks.check-rust]
@@ -86,8 +85,8 @@ run = "cargo check"
 # ===== Testing =====
 
 [tasks.test-packages]
-description = "Run npm package tests"
-run = "npm run test --workspaces --if-present"
+description = "Run package tests"
+run = "bun test"
 
 [tasks.test-rust]
 description = "Run Rust tests"

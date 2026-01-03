@@ -18,7 +18,7 @@ jobs:
         uses: jdx/mise-action@v3
 
       - name: Install dependencies
-        run: npm install
+        run: bun install
 
       - name: Run tests
         run: mise run test

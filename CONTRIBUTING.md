@@ -6,11 +6,10 @@ Thank you for your interest in contributing to Voca! This document provides guid
 
 ### Prerequisites
 
-- [mise](https://mise.jdx.dev/) - Dev environment manager (handles Rust, Node, etc.)
+- [mise](https://mise.jdx.dev/) - Dev environment manager (handles Rust, Bun, etc.)
 - Or manually install:
   - Rust 1.92+
-  - Node.js 25+
-  - npm 11+
+  - Bun 1.1.42+
 
 ### Getting Started
 
@@ -24,10 +23,10 @@ Thank you for your interest in contributing to Voca! This document provides guid
    ```bash
    # Using mise (recommended)
    mise install
-   npm install
+   bun install
 
    # Or manually
-   npm install
+   bun install
    ```
 
 3. **Start development servers**
@@ -40,7 +39,7 @@ Thank you for your interest in contributing to Voca! This document provides guid
    cd services/signaling && RUST_LOG=info cargo run
 
    # Terminal 2: Web frontend
-   cd apps/web && npm run dev
+   cd apps/web && bun run dev
    ```
 
 4. **Open your browser**

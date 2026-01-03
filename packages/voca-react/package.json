@@ -6,8 +6,8 @@
     "module": "dist/index.mjs",
     "types": "dist/index.d.ts",
     "scripts": {
-        "build": "tsup src/index.ts --format cjs,esm --dts --external react",
-        "dev": "tsup src/index.ts --format cjs,esm --dts --external react --watch",
+        "build": "bun build src/index.ts --outdir dist --format esm --external react --sourcemap=external --minify",
+        "dev": "bun build src/index.ts --outdir dist --format esm --external react --watch",
         "lint": "tsc --noEmit"
     },
     "keywords": [
@@ -37,7 +37,6 @@
     "devDependencies": {
         "@types/react": "^19.2.7",
         "react": "^19.2.3",
-        "tsup": "^8.5.1",
         "typescript": "^5.9.3"
     }
 }

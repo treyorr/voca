@@ -24,10 +24,10 @@
 ### Quick Install
 
 ```bash
-npm install @voca/client
+bun install @voca/client
 # or for frameworks:
-npm install @voca/react    # React
-npm install @voca/svelte   # Svelte 5
+bun install @voca/react    # React
+bun install @voca/svelte   # Svelte 5
 ```
 
 ### Usage Example (React)
@@ -70,7 +70,7 @@ mise run dev
 cd services/signaling && RUST_LOG=info cargo run
 
 # Terminal 2: Web frontend
-cd apps/web && npm install && npm run dev
+cd apps/web && bun install && bun run dev
 ```
 
 Open http://localhost:5173

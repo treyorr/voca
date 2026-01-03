@@ -20,28 +20,28 @@ jobs:
         uses: jdx/mise-action@v3
 
       - name: Install dependencies
-        run: npm install
+        run: bun install
 
       - name: Build packages
         run: |
-          npm run build --workspace=@voca/client
-          npm run build --workspace=@voca/svelte
-          npm run build --workspace=@voca/react
+          cd packages/voca-client && bun run build
+          cd ../voca-svelte && bun run build
+          cd ../voca-react && bun run build
 
       - name: Publish @voca/client
-        run: npm publish --workspace=@voca/client --access public --provenance
+        run: cd packages/voca-client && bun publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          BUN_PUBLISH_TOKEN: ${{ secrets.NPM_TOKEN }}
         continue-on-error: true
 
       - name: Publish @voca/svelte
-        run: npm publish --workspace=@voca/svelte --access public --provenance
+        run: cd packages/voca-svelte && bun publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          BUN_PUBLISH_TOKEN: ${{ secrets.NPM_TOKEN }}
         continue-on-error: true
 
       - name: Publish @voca/react
-        run: npm publish --workspace=@voca/react --access public --provenance
+        run: cd packages/voca-react && bun publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          BUN_PUBLISH_TOKEN: ${{ secrets.NPM_TOKEN }}
         continue-on-error: true

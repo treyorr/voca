@@ -6,11 +6,11 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build": "bun build src/index.ts --outdir dist --format esm --sourcemap=external --minify",
+    "dev": "bun build src/index.ts --outdir dist --format esm --watch",
     "lint": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "bun test",
+    "test:watch": "bun test --watch"
   },
   "keywords": [
     "webrtc",
@@ -30,9 +30,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "nanoevents": "^9.1.0"
