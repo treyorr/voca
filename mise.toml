@@ -28,9 +28,14 @@ dir = "packages/voca-react"
 run = "bun run build"
 wait_for = ["build-client"]
 
+[tasks.build-svelte]
+description = "Build @voca/svelte package"
+dir = "packages/voca-svelte"
+run = "bun run build"
+
 [tasks.build-packages]
 description = "Build all npm packages in order"
-depends = ["build-client", "build-react"]
+depends = ["build-client", "build-react", "build-svelte"]
 
 [tasks.build-signaling]
 description = "Build Rust signaling server"
