@@ -2,7 +2,7 @@
 
 **Open-source WebRTC voice chat.** Ephemeral rooms. No auth. Pure P2P.
 
-[![npm](https://img.shields.io/npm/v/@voca/client)](https://www.npmjs.com/package/@voca/client)
+[![npm](https://img.shields.io/npm/v/@treyorr/voca-client)](https://www.npmjs.com/package/@treyorr/voca-client)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
@@ -17,23 +17,23 @@
 
 | Package | Description |
 |---------|-------------|
-| [@voca/client](https://npmjs.com/package/@voca/client) | Core TypeScript SDK |
-| [@voca/react](https://npmjs.com/package/@voca/react) | React hooks |
-| [@voca/svelte](https://npmjs.com/package/@voca/svelte) | Svelte 5 runes wrapper |
+| [@treyorr/voca-client](https://npmjs.com/package/@treyorr/voca-client) | Core TypeScript SDK |
+| [@treyorr/voca-react](https://npmjs.com/package/@treyorr/voca-react) | React hooks |
+| [@treyorr/voca-svelte](https://npmjs.com/package/@treyorr/voca-svelte) | Svelte 5 runes wrapper |
 
 ### Quick Install
 
 ```bash
-bun install @voca/client
+bun install @treyorr/voca-client
 # or for frameworks:
-bun install @voca/react    # React
-bun install @voca/svelte   # Svelte 5
+bun install @treyorr/voca-react    # React
+bun install @treyorr/voca-svelte   # Svelte 5
 ```
 
 ### Usage Example (React)
 
 ```tsx
-import { useVocaRoom } from '@voca/react';
+import { useVocaRoom } from '@treyorr/voca-react';
 
 function VoiceRoom({ roomId }) {
   const { status, peers, toggleMute, isMuted } = useVocaRoom(roomId);

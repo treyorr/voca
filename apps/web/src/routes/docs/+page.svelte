@@ -6,7 +6,7 @@
 
 <div class="brutalist-box mb-6">
   <h2 class="font-bold mb-2">Quick Install</h2>
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">npm install @voca/client</pre>
+  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">npm install @treyorr/voca-client</pre>
 </div>
 
 <div class="grid gap-4 md:grid-cols-2">
@@ -36,15 +36,15 @@
   
   <div class="grid gap-2 text-sm">
     <div class="flex justify-between items-center border border-black p-2">
-      <span class="font-mono">@voca/client</span>
+      <span class="font-mono">@treyorr/voca-client</span>
       <span>Core TypeScript SDK</span>
     </div>
     <div class="flex justify-between items-center border border-black p-2">
-      <span class="font-mono">@voca/svelte</span>
+      <span class="font-mono">@treyorr/voca-svelte</span>
       <span>Svelte 5 Runes wrapper</span>
     </div>
     <div class="flex justify-between items-center border border-black p-2">
-      <span class="font-mono">@voca/react</span>
+      <span class="font-mono">@treyorr/voca-react</span>
       <span>React hooks</span>
     </div>
   </div>

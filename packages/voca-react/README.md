@@ -1,18 +1,18 @@
-# @voca/react
+# @treyorr/voca-react
 
 React hooks for Voca WebRTC voice chat.
 
 ## Installation
 
 ```bash
-npm install @voca/react
+npm install @treyorr/voca-react
 ```
 
 ## Quick Start
 
 ### Create a Room
 ```tsx
-import { VocaClient } from '@voca/react';
+import { VocaClient } from '@treyorr/voca-react';
 
 async function createRoom() {
   const client = await VocaClient.createRoom();
@@ -22,7 +22,7 @@ async function createRoom() {
 
 ### Join a Room
 ```tsx
-import { useVocaRoom } from '@voca/react';
+import { useVocaRoom } from '@treyorr/voca-react';
 
 function VoiceRoom({ roomId }: { roomId: string }) {
   const { status, peers, isMuted, toggleMute, disconnect } = useVocaRoom(roomId);

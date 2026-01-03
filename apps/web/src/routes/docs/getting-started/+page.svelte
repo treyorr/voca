@@ -7,15 +7,15 @@
 <div class="space-y-2 mb-6">
   <div class="brutalist-box">
     <p class="font-bold text-sm mb-1">Core (any framework)</p>
-    <pre class="bg-black text-white p-2 text-sm">npm install @voca/client</pre>
+    <pre class="bg-black text-white p-2 text-sm">npm install @treyorr/voca-client</pre>
   </div>
   <div class="brutalist-box">
     <p class="font-bold text-sm mb-1">Svelte 5</p>
-    <pre class="bg-black text-white p-2 text-sm">npm install @voca/svelte</pre>
+    <pre class="bg-black text-white p-2 text-sm">npm install @treyorr/voca-svelte</pre>
   </div>
   <div class="brutalist-box">
     <p class="font-bold text-sm mb-1">React</p>
-    <pre class="bg-black text-white p-2 text-sm">npm install @voca/react</pre>
+    <pre class="bg-black text-white p-2 text-sm">npm install @treyorr/voca-react</pre>
   </div>
 </div>
 
@@ -27,7 +27,7 @@
 
 <div class="brutalist-box mb-6">
   <p class="font-bold text-sm mb-2">Create Room & Get Shareable Link</p>
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { VocaClient } from '@voca/client';
+  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { VocaClient } from '@treyorr/voca-client';
 
 // Create a new room
 const client = await VocaClient.createRoom({
@@ -48,7 +48,7 @@ await client.connect();`}</pre>
 
 <div class="brutalist-box mb-6">
   <p class="font-bold text-sm mb-2">React Example</p>
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { useVocaRoom } from '@voca/react';
+  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { useVocaRoom } from '@treyorr/voca-react';
 
 function VoiceRoom({ roomId }) {
   const { status, peers, toggleMute, isMuted } = useVocaRoom(roomId);

@@ -12,8 +12,8 @@
       "name": "web",
       "version": "0.0.1",
       "dependencies": {
-        "@voca/client": "file:../../packages/voca-client",
-        "@voca/svelte": "file:../../packages/voca-svelte",
+        "@treyorr/voca-client": "file:../../packages/voca-client",
+        "@treyorr/voca-svelte": "file:../../packages/voca-svelte",
       },
       "devDependencies": {
         "@sveltejs/kit": "^2.49.2",
@@ -28,7 +28,7 @@
       },
     },
     "packages/voca-client": {
-      "name": "@voca/client",
+      "name": "@treyorr/voca-client",
       "version": "0.1.0",
       "dependencies": {
         "nanoevents": "^9.1.0",
@@ -38,10 +38,10 @@
       },
     },
     "packages/voca-react": {
-      "name": "@voca/react",
+      "name": "@treyorr/voca-react",
       "version": "0.1.0",
       "dependencies": {
-        "@voca/client": "*",
+        "@treyorr/voca-client": "*",
       },
       "devDependencies": {
         "@types/react": "^19.2.7",
@@ -53,10 +53,10 @@
       },
     },
     "packages/voca-svelte": {
-      "name": "@voca/svelte",
+      "name": "@treyorr/voca-svelte",
       "version": "0.1.0",
       "dependencies": {
-        "@voca/client": "*",
+        "@treyorr/voca-client": "*",
       },
       "devDependencies": {
         "@sveltejs/package": "^2.3.7",
@@ -258,6 +258,12 @@
 
     "@tailwindcss/vite": ["@tailwindcss/vite@4.1.18", "", { "dependencies": { "@tailwindcss/node": "4.1.18", "@tailwindcss/oxide": "4.1.18", "tailwindcss": "4.1.18" }, "peerDependencies": { "vite": "^5.2.0 || ^6 || ^7" } }, "sha512-jVA+/UpKL1vRLg6Hkao5jldawNmRo7mQYrZtNHMIVpLfLhDml5nMRUo/8MwoX2vNXvnaXNNMedrMfMugAVX1nA=="],
 
+    "@treyorr/voca-client": ["@treyorr/voca-client@workspace:packages/voca-client"],
+
+    "@treyorr/voca-react": ["@treyorr/voca-react@workspace:packages/voca-react"],
+
+    "@treyorr/voca-svelte": ["@treyorr/voca-svelte@workspace:packages/voca-svelte"],
+
     "@tybys/wasm-util": ["@tybys/wasm-util@0.10.1", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg=="],
 
     "@types/cookie": ["@types/cookie@0.6.0", "", {}, "sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA=="],
@@ -265,12 +271,6 @@
     "@types/estree": ["@types/estree@1.0.8", "", {}, "sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w=="],
 
     "@types/react": ["@types/react@19.2.7", "", { "dependencies": { "csstype": "^3.2.2" } }, "sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg=="],
-
-    "@voca/client": ["@voca/client@workspace:packages/voca-client"],
-
-    "@voca/react": ["@voca/react@workspace:packages/voca-react"],
-
-    "@voca/svelte": ["@voca/svelte@workspace:packages/voca-svelte"],
 
     "acorn": ["acorn@8.15.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg=="],
 
@@ -424,12 +424,12 @@
 
     "svelte-check/chokidar": ["chokidar@4.0.3", "", { "dependencies": { "readdirp": "^4.0.1" } }, "sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA=="],
 
-    "web/@voca/client": ["@voca/client@file:packages/voca-client", { "dependencies": { "nanoevents": "^9.1.0" }, "devDependencies": { "typescript": "^5.9.3" } }],
+    "web/@treyorr/voca-client": ["@treyorr/voca-client@file:packages/voca-client", { "dependencies": { "nanoevents": "^9.1.0" }, "devDependencies": { "typescript": "^5.9.3" } }],
 
-    "web/@voca/svelte": ["@voca/svelte@file:packages/voca-svelte", { "dependencies": { "@voca/client": "*" }, "devDependencies": { "@sveltejs/package": "^2.3.7", "svelte": "^5.46.1", "svelte-check": "^4.3.5", "typescript": "^5.9.3" }, "peerDependencies": { "svelte": "^5.0.0" } }],
+    "web/@treyorr/voca-svelte": ["@treyorr/voca-svelte@file:packages/voca-svelte", { "dependencies": { "@treyorr/voca-client": "*" }, "devDependencies": { "@sveltejs/package": "^2.3.7", "svelte": "^5.46.1", "svelte-check": "^4.3.5", "typescript": "^5.9.3" }, "peerDependencies": { "svelte": "^5.0.0" } }],
 
     "svelte-check/chokidar/readdirp": ["readdirp@4.1.2", "", {}, "sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg=="],
 
-    "web/@voca/svelte/@voca/client": ["@voca/client@file:packages/voca-client", { "dependencies": { "nanoevents": "^9.1.0" }, "devDependencies": { "typescript": "^5.9.3" } }],
+    "web/@treyorr/voca-svelte/@treyorr/voca-client": ["@treyorr/voca-client@file:packages/voca-client", { "dependencies": { "nanoevents": "^9.1.0" }, "devDependencies": { "typescript": "^5.9.3" } }],
   }
 }

@@ -37,9 +37,9 @@
   <div class="brutalist-box">
     <h3 class="font-bold mb-2">SDK Packages</h3>
     <ul class="text-sm list-disc ml-6 space-y-1">
-      <li><span class="font-mono">@voca/client</span> - Core TypeScript SDK</li>
-      <li><span class="font-mono">@voca/svelte</span> - Svelte 5 runes wrapper</li>
-      <li><span class="font-mono">@voca/react</span> - React hooks wrapper</li>
+      <li><span class="font-mono">@treyorr/voca-client</span> - Core TypeScript SDK</li>
+      <li><span class="font-mono">@treyorr/voca-svelte</span> - Svelte 5 runes wrapper</li>
+      <li><span class="font-mono">@treyorr/voca-react</span> - React hooks wrapper</li>
     </ul>
   </div>
 

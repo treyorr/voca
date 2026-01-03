@@ -1,18 +1,18 @@
-# @voca/svelte
+# @treyorr/voca-svelte
 
 Svelte 5 Runes wrapper for Voca WebRTC voice chat.
 
 ## Installation
 
 ```bash
-npm install @voca/svelte
+npm install @treyorr/voca-svelte
 ```
 
 ## Quick Start
 
 ### Create a Room
 ```typescript
-import { VocaClient } from '@voca/client';
+import { VocaClient } from '@treyorr/voca-client';
 
 async function createRoom() {
   const client = await VocaClient.createRoom();
@@ -23,7 +23,7 @@ async function createRoom() {
 ### Join a Room
 ```svelte
 <script lang="ts">
-  import { VocaRoom } from '@voca/svelte';
+  import { VocaRoom } from '@treyorr/voca-svelte';
 
   const room = new VocaRoom('my-room');
   

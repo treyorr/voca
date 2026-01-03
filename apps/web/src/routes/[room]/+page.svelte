@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
-  import { VocaRoom, type ConnectionStatus } from "@voca/svelte";
+  import { VocaRoom, type ConnectionStatus } from "@treyorr/voca-svelte";
   import { onMount, onDestroy } from "svelte";
 
   const roomId = $derived(page.params.room);
@@ -90,7 +90,9 @@
 
 <!-- Brutalist Error Overlay -->
 {#if room?.status === "full" || room?.status === "error"}
-  <div class="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4">
+  <div
+    class="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4"
+  >
     <div class="bg-white border-4 border-black p-8 max-w-md w-full text-center">
       <h1 class="text-4xl font-bold mb-4 font-mono">
         {#if room.status === "full"}
@@ -214,4 +216,3 @@
         6} | ROOM: {roomId}</pre>
   </footer>
 </main>
-

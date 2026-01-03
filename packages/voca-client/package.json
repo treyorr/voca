@@ -1,5 +1,5 @@
 {
-  "name": "@voca/client",
+  "name": "@treyorr/voca-client",
   "version": "0.1.0",
   "description": "Core TypeScript SDK for Voca Signaling",
   "main": "dist/index.js",

@@ -68,9 +68,9 @@
     <div class="mt-8 pt-4 border-t-2 border-black">
       <p class="text-xs font-bold mb-2">PACKAGES</p>
       <div class="space-y-1 text-sm">
-        <a href="https://npmjs.com/package/@voca/client" class="block hover:underline" target="_blank">@voca/client</a>
-        <a href="https://npmjs.com/package/@voca/svelte" class="block hover:underline" target="_blank">@voca/svelte</a>
-        <a href="https://npmjs.com/package/@voca/react" class="block hover:underline" target="_blank">@voca/react</a>
+        <a href="https://npmjs.com/package/@treyorr/voca-client" class="block hover:underline" target="_blank">@treyorr/voca-client</a>
+        <a href="https://npmjs.com/package/@treyorr/voca-svelte" class="block hover:underline" target="_blank">@treyorr/voca-svelte</a>
+        <a href="https://npmjs.com/package/@treyorr/voca-react" class="block hover:underline" target="_blank">@treyorr/voca-react</a>
       </div>
     </div>
   </nav>

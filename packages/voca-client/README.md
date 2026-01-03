@@ -1,11 +1,11 @@
-# @voca/client
+# @treyorr/voca-client
 
 Core TypeScript SDK for Voca WebRTC signaling.
 
 ## Installation
 
 ```bash
-npm install @voca/client
+npm install @treyorr/voca-client
 ```
 
 ## Quick Start
@@ -13,7 +13,7 @@ npm install @voca/client
 ### Option 1: Create a New Room
 
 ```typescript
-import { VocaClient } from '@voca/client';
+import { VocaClient } from '@treyorr/voca-client';
 
 // Create a room and get a connected client
 const client = await VocaClient.createRoom({
@@ -27,7 +27,7 @@ await client.connect();
 ### Option 2: Join an Existing Room
 
 ```typescript
-import { VocaClient } from '@voca/client';
+import { VocaClient } from '@treyorr/voca-client';
 
 const client = new VocaClient('abc123', {
   serverUrl: 'wss://your-server.com',

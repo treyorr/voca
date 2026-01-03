@@ -1,5 +1,5 @@
 {
-    "name": "@voca/svelte",
+    "name": "@treyorr/voca-svelte",
     "version": "0.1.0",
     "description": "Svelte 5 Runes wrapper for Voca Client SDK",
     "svelte": "./dist/index.svelte.js",
@@ -37,7 +37,7 @@
         "access": "public"
     },
     "dependencies": {
-        "@voca/client": "*"
+        "@treyorr/voca-client": "*"
     },
     "devDependencies": {
         "@sveltejs/package": "^2.3.7",

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
 
-  import { VocaClient } from "@voca/svelte";
+  import { VocaClient } from "@treyorr/voca-svelte";
 
   let isCreating = $state(false);
   let error = $state<string | null>(null);
@@ -61,7 +61,11 @@
     </div>
     <div class="mt-4 flex gap-4 justify-center">
       <a href="/docs" class="hover:underline">[ DOCS ]</a>
-      <a href="https://github.com/treyorr/voca" class="hover:underline" target="_blank">[ GITHUB ]</a>
+      <a
+        href="https://github.com/treyorr/voca"
+        class="hover:underline"
+        target="_blank">[ GITHUB ]</a
+      >
     </div>
   </footer>
 </main>

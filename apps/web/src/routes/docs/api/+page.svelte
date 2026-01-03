@@ -1,6 +1,6 @@
 <h1 class="text-3xl font-bold mb-6">API Reference</h1>
 
-<h2 class="text-2xl font-bold mt-8 mb-4" id="voca-client">@voca/client</h2>
+<h2 class="text-2xl font-bold mt-8 mb-4" id="voca-client">@treyorr/voca-client</h2>
 
 <h3 class="text-lg font-bold mt-6 mb-2">VocaClient.createRoom(config?)</h3>
 
