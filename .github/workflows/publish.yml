@@ -26,7 +26,6 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
           echo "registry=https://registry.npmjs.org/" >> .npmrc
-          # Also configure for user just in case
           cp .npmrc ~/.npmrc
 
       - name: Build packages
@@ -36,13 +35,13 @@ jobs:
           cd ../voca-react && bun run build
 
       - name: Publish @voca/client
-        run: cd packages/voca-client && bun publish --access public
+        run: cd packages/voca-client && bun publish --access public --provenance
         continue-on-error: true
 
       - name: Publish @voca/svelte
-        run: cd packages/voca-svelte && bun publish --access public
+        run: cd packages/voca-svelte && bun publish --access public --provenance
         continue-on-error: true
 
       - name: Publish @voca/react
-        run: cd packages/voca-react && bun publish --access public
+        run: cd packages/voca-react && bun publish --access public --provenance
         continue-on-error: true
