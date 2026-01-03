@@ -23,7 +23,7 @@
 		"vite": "^7.3.0"
 	},
 	"dependencies": {
-		"@treyorr/voca-client": "file:../../packages/voca-client",
-		"@treyorr/voca-svelte": "file:../../packages/voca-svelte"
+		"@treyorr/voca-client": "^0.1.0",
+		"@treyorr/voca-svelte": "^0.1.0"
 	}
 }

@@ -20,8 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install tools with mise
-        uses: jdx/mise-action@v3
+
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
