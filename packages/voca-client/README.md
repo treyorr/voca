@@ -1,117 +1,93 @@
 # @treyorr/voca-client
 
-Core TypeScript SDK for Voca WebRTC signaling.
+Core TypeScript SDK for [Voca](https://voca.vc) WebRTC voice chat.
+
+[![npm](https://img.shields.io/npm/v/@treyorr/voca-client)](https://www.npmjs.com/package/@treyorr/voca-client)
 
 ## Installation
 
 ```bash
 npm install @treyorr/voca-client
+# or
+bun add @treyorr/voca-client
 ```
 
 ## Quick Start
 
-### Option 1: Create a New Room
+### Create a Room
 
 ```typescript
 import { VocaClient } from '@treyorr/voca-client';
 
-// Create a room and get a connected client
+// Create a new room and get a client
 const client = await VocaClient.createRoom({
-  serverUrl: 'wss://your-server.com',
+  serverUrl: 'wss://voca.vc', // or your self-hosted server
 });
 
-console.log('Room ID:', client.roomId); // Share this with others
+console.log('Share this room:', client.roomId);
+
+// Connect to start voice chat
 await client.connect();
 ```
 
-### Option 2: Join an Existing Room
+### Join an Existing Room
 
 ```typescript
 import { VocaClient } from '@treyorr/voca-client';
 
+// Join a room by ID
 const client = new VocaClient('abc123', {
-  serverUrl: 'wss://your-server.com',
+  serverUrl: 'wss://voca.vc',
 });
 
 await client.connect();
 ```
 
-## Common Use Cases
-
-### Voice Chat App (Create + Share Link)
-```typescript
-const client = await VocaClient.createRoom();
-const inviteLink = `https://myapp.com/room/${client.roomId}`;
-// Share inviteLink with friends
-await client.connect();
-```
-
-### Game Lobby (Join by Code)
-```typescript
-const roomCode = prompt('Enter room code:');
-const client = new VocaClient(roomCode);
-await client.connect();
-```
-
-### Check if Room is Full Before Joining
-```typescript
-const response = await fetch(`/api/room/${roomId}`);
-const { exists, full, peers, capacity } = await response.json();
-
-if (!exists) {
-  alert('Room not found');
-} else if (full) {
-  alert(`Room is full (${peers}/${capacity})`);
-} else {
-  const client = new VocaClient(roomId);
-  await client.connect();
-}
-```
-
-## API Reference
+## API
 
 ### `VocaClient.createRoom(config?)`
 
-Creates a new room on the server and returns a client instance.
-
-```typescript
-const client = await VocaClient.createRoom({
-  serverUrl: 'wss://your-server.com', // Required in Node.js
-});
-```
+Creates a new room on the server and returns a connected client.
 
 ### `new VocaClient(roomId, config?)`
 
-Creates a client for joining an existing room.
+Join an existing room by ID.
 
 ### Config Options
 
 | Option | Type | Description |
 |--------|------|-------------|
-| `serverUrl` | string | WebSocket server URL |
-| `turnApiKey` | string | TURN API key for NAT traversal |
-| `reconnect.enabled` | boolean | Enable auto-reconnect (default: true) |
-| `reconnect.maxAttempts` | number | Max reconnection attempts (default: 5) |
-| `reconnect.baseDelayMs` | number | Base delay for exponential backoff |
+| `serverUrl` | `string` | WebSocket server URL (e.g., `wss://voca.vc`) |
+| `apiKey` | `string` | Optional API key for server auth |
+| `reconnect.enabled` | `boolean` | Auto-reconnect on disconnect (default: true) |
+| `reconnect.maxAttempts` | `number` | Max reconnection attempts (default: 5) |
 
 ### Methods
 
 | Method | Returns | Description |
 |--------|---------|-------------|
-| `connect()` | Promise | Connect to room |
-| `disconnect()` | void | Leave room |
-| `toggleMute()` | boolean | Toggle mute, returns new state |
-| `on(event, callback)` | Function | Subscribe to events |
+| `connect()` | `Promise<void>` | Connect to room and request mic access |
+| `disconnect()` | `void` | Leave room and cleanup |
+| `toggleMute()` | `boolean` | Toggle mute, returns new mute state |
+| `on(event, callback)` | `() => void` | Subscribe to events |
 
 ### Events
 
-- `status` - Connection status changes
-- `error` - Error events with typed codes
-- `warning` - Non-fatal warnings
-- `peer-joined` - Peer joined the room
-- `peer-left` - Peer left the room
-- `peer-audio-level` - Peer audio level (0-1)
-- `local-audio-level` - Local audio level (0-1)
+| Event | Payload | Description |
+|-------|---------|-------------|
+| `status` | `ConnectionStatus` | Connection state changed |
+| `error` | `VocaError` | Error occurred |
+| `peer-joined` | `peerId: string` | New peer connected |
+| `peer-left` | `peerId: string` | Peer disconnected |
+| `peer-audio-level` | `(peerId, level)` | Peer speaking level (0-1) |
+| `local-audio-level` | `level: number` | Your speaking level (0-1) |
+
+## Framework Wrappers
+
+For reactive state management, use our framework-specific packages:
+
+- **Svelte 5**: [@treyorr/voca-svelte](https://npmjs.com/package/@treyorr/voca-svelte)
+- **React**: [@treyorr/voca-react](https://npmjs.com/package/@treyorr/voca-react)
 
 ## License
 
