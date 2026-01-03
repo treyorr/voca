@@ -127,7 +127,6 @@ export class VocaClient {
         this.roomId = roomId;
         this.config = config;
         if (config.iceServers) this.iceServers = config.iceServers;
-        // turnServers is no longer part of VocaConfig, removed this line
     }
 
     public on<E extends keyof VocaEvents>(event: E, callback: VocaEvents[E]) {
