@@ -2,15 +2,23 @@
     "name": "@voca/svelte",
     "version": "0.1.0",
     "description": "Svelte 5 Runes wrapper for Voca Client SDK",
-    "main": "src/index.svelte.ts",
-    "module": "src/index.svelte.ts",
-    "types": "src/index.svelte.ts",
+    "svelte": "./dist/index.js",
+    "types": "./dist/index.d.ts",
     "exports": {
-        ".": "./src/index.svelte.ts"
+        ".": {
+            "types": "./dist/index.d.ts",
+            "svelte": "./dist/index.js"
+        }
     },
+    "files": [
+        "dist",
+        "!dist/**/*.test.*",
+        "!dist/**/*.spec.*"
+    ],
     "scripts": {
         "check": "svelte-check --tsconfig ./tsconfig.json",
-        "build": "echo 'No build required for voca-svelte'"
+        "build": "svelte-package -i src/lib",
+        "prepublishOnly": "npm run build"
     },
     "peerDependencies": {
         "svelte": "^5.0.0"
@@ -31,7 +39,7 @@
         "@voca/client": "*"
     },
     "devDependencies": {
-        "tsup": "^8.5.1",
+        "@sveltejs/package": "^2.3.7",
         "typescript": "^5.9.3",
         "svelte": "^5.46.1",
         "svelte-check": "^4.3.5"
