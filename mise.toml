@@ -1,0 +1,112 @@
+[tools]
+rust = "1.92.0"
+node = "25.2.1"
+npm = "11.7.0"
+
+# ===== Setup =====
+
+[tasks.install]
+description = "Install all npm dependencies"
+run = "npm install"
+
+[tasks.setup]
+description = "Full setup for fresh clone"
+run = """
+npm install
+mise run build-packages
+"""
+
+# ===== Build Packages =====
+
+[tasks.build-client]
+description = "Build @voca/client package"
+dir = "packages/voca-client"
+run = "npm run build"
+
+[tasks.build-react]
+description = "Build @voca/react package"
+dir = "packages/voca-react"
+run = "npm run build"
+wait_for = ["build-client"]
+
+[tasks.build-packages]
+description = "Build all npm packages in order"
+depends = ["build-client", "build-react"]
+
+[tasks.build-signaling]
+description = "Build Rust signaling server"
+dir = "services/signaling"
+run = "cargo build --release"
+
+[tasks.build-web]
+description = "Build web app"
+dir = "apps/web"
+run = "npm run build"
+wait_for = ["build-packages"]
+
+# ===== Development =====
+
+[tasks.dev-backend]
+description = "Run backend signaling server"
+run = "cd services/signaling && RUST_LOG=info cargo run"
+
+[tasks.dev-frontend]
+description = "Run frontend dev server"
+run = "cd apps/web && npm run dev"
+
+[tasks.dev]
+description = "Run frontend and backend in parallel"
+depends = ["dev-backend", "dev-frontend"]
+
+# ===== Full Build =====
+
+[tasks.build]
+description = "Build everything for production"
+run = """
+mise run build-packages
+mise run build-signaling
+mise run build-web
+"""
+
+# ===== Linting & Testing =====
+
+[tasks.lint]
+description = "Run linting on all packages"
+run = """
+npx tsc --noEmit -p packages/voca-client
+npx tsc --noEmit -p packages/voca-svelte
+npx tsc --noEmit -p packages/voca-react
+"""
+
+[tasks.check-rust]
+description = "Check Rust code compiles"
+dir = "services/signaling"
+run = "cargo check"
+
+# ===== Testing =====
+
+[tasks.test-packages]
+description = "Run npm package tests"
+run = "npm run test --workspaces --if-present"
+
+[tasks.test-rust]
+description = "Run Rust tests"
+dir = "services/signaling"
+run = "cargo test"
+
+[tasks.test]
+description = "Run all tests (unit & integration)"
+depends = ["test-packages", "test-rust"]
+
+# ===== Utility =====
+
+[tasks.kill]
+description = "Kill dangling signaling and dev servers"
+run = "lsof -ti :3001,5173 | xargs kill -9 2>/dev/null || true"
+
+[tasks.clean]
+description = "Kill processes and remove build artifacts"
+run = """
+mise run kill
+rm -rf packages/*/dist apps/web/dist services/signaling/target
+"""   

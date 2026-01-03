@@ -1,0 +1,47 @@
+# Voca Caddy Configuration
+# Handles HTTPS/WSS reverse proxying for voca.vc
+
+voca.vc {
+    # API and WebSocket routes to signaling server
+    handle /api/* {
+        reverse_proxy signaling:3001
+    }
+
+    # WebSocket upgrade for signaling
+    handle /ws/* {
+        reverse_proxy signaling:3001
+    }
+
+    # All other routes to web frontend
+    handle {
+        reverse_proxy web:3000
+    }
+
+    # Enable gzip compression
+    encode gzip
+
+    # Security headers
+    header {
+        # HSTS
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        # Prevent clickjacking
+        X-Frame-Options "DENY"
+        # XSS protection
+        X-Content-Type-Options "nosniff"
+        # Referrer policy
+        Referrer-Policy "strict-origin-when-cross-origin"
+        # CSP for WebRTC
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' wss://voca.vc https://voca.vc https://*.metered.live; media-src 'self' blob:;"
+    }
+
+    # Logging
+    log {
+        output file /var/log/caddy/voca.log
+        format json
+    }
+}
+
+# Optional: Redirect www to non-www
+www.voca.vc {
+    redir https://voca.vc{uri} permanent
+}

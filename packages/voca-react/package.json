@@ -1,0 +1,43 @@
+{
+    "name": "@voca/react",
+    "version": "0.1.0",
+    "description": "React hooks for Voca WebRTC voice chat",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsup src/index.ts --format cjs,esm --dts --external react",
+        "dev": "tsup src/index.ts --format cjs,esm --dts --external react --watch",
+        "lint": "tsc --noEmit"
+    },
+    "keywords": [
+        "voca",
+        "webrtc",
+        "react",
+        "hooks"
+    ],
+    "author": "Trey Orr",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/treyorr/voca.git",
+        "directory": "packages/voca-react"
+    },
+    "homepage": "https://voca.vc",
+    "bugs": "https://github.com/treyorr/voca/issues",
+    "publishConfig": {
+        "access": "public"
+    },
+    "peerDependencies": {
+        "react": ">=18.0.0"
+    },
+    "dependencies": {
+        "@voca/client": "*"
+    },
+    "devDependencies": {
+        "@types/react": "^19.2.7",
+        "react": "^19.2.3",
+        "tsup": "^8.5.1",
+        "typescript": "^5.9.3"
+    }
+}

@@ -1,0 +1,24 @@
+name: Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install tools with mise
+        uses: jdx/mise-action@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: mise run test

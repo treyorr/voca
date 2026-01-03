@@ -1,0 +1,47 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      id-token: write  # Required for npm provenance
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install tools with mise
+        uses: jdx/mise-action@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build packages
+        run: |
+          npm run build --workspace=@voca/client
+          npm run build --workspace=@voca/svelte
+          npm run build --workspace=@voca/react
+
+      - name: Publish @voca/client
+        run: npm publish --workspace=@voca/client --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        continue-on-error: true
+
+      - name: Publish @voca/svelte
+        run: npm publish --workspace=@voca/svelte --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        continue-on-error: true
+
+      - name: Publish @voca/react
+        run: npm publish --workspace=@voca/react --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        continue-on-error: true

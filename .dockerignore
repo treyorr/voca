@@ -1,0 +1,10 @@
+node_modules
+target
+.git
+.DS_Store
+*.log
+local_logs
+dist
+build
+.svelte-kit
+.env

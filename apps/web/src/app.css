@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --spacing-base: 8px;
+  --color-voca-bg: #ffffff;
+  --color-voca-fg: #000000;
+  --color-voca-border: #000000;
+}
+
+:root {
+  --pulse: 1px;
+}
+
+* {
+  font-family: var(--font-mono);
+}
+
+body {
+  background-color: var(--color-voca-bg);
+  color: var(--color-voca-fg);
+  margin: 0;
+  padding: 0;
+}
+
+.brutalist-box {
+  border: var(--pulse) solid var(--color-voca-border);
+  padding: calc(var(--spacing-base) * 1);
+  margin: calc(var(--spacing-base) * 1);
+  transition: border-width 50ms ease-out;
+}
+
+.brutalist-button {
+  border: 1px solid var(--color-voca-border);
+  background: var(--color-voca-bg);
+  color: var(--color-voca-fg);
+  padding: calc(var(--spacing-base) * 1) calc(var(--spacing-base) * 2);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 100ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Only apply hover on devices that support it (not touch) */
+@media (hover: hover) {
+  .brutalist-button:hover {
+    background: var(--color-voca-fg);
+    color: var(--color-voca-bg);
+  }
+}
+
+.brutalist-button:active {
+  transform: translate(1px, 1px);
+}
+
+.peer-box {
+  border: 1px solid var(--color-voca-border);
+  padding: calc(var(--spacing-base) * 1.5);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-base);
+  box-shadow: inset 0 0 0 var(--pulse) var(--color-voca-border);
+  transition: box-shadow 50ms ease-out;
+}
+
+@media (min-width: 640px) {
+  .peer-box {
+    padding: calc(var(--spacing-base) * 2);
+  }
+}
+
+.muted {
+  opacity: 0.5;
+}
+
+.brutalist-input {
+  border: 1px solid var(--color-voca-border);
+  background: var(--color-voca-bg);
+  color: var(--color-voca-fg);
+  padding: calc(var(--spacing-base) * 1);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  outline: none;
+}
+
+.brutalist-input:focus {
+  box-shadow: inset 0 0 0 1px var(--color-voca-border);
+}
+
+.brutalist-input::placeholder {
+  color: #888;
+}

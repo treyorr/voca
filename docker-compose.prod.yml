@@ -1,0 +1,47 @@
+services:
+  signaling:
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/voca-signaling:latest
+    ports:
+      - "3001:3001"
+    environment:
+      - VOCA_ADMIN_TOKEN=${VOCA_ADMIN_TOKEN:-changeme}
+      - VOCA_API_KEY=${VOCA_API_KEY}
+      - RUST_LOG=info
+      - RUST_LOG_FORMAT=json
+      - VOCA_LOG_DIR=/var/log/signaling
+    volumes:
+      - ./logs/signaling:/var/log/signaling
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+
+  web:
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/voca-web:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - ORIGIN=${ORIGIN:-https://voca.vc}
+    depends_on:
+      - signaling
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+      - signaling
+
+volumes:
+  caddy_data:
+  caddy_config:

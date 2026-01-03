@@ -1,0 +1,40 @@
+{
+  "name": "@voca/client",
+  "version": "0.1.0",
+  "description": "Core TypeScript SDK for Voca Signaling",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "lint": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "webrtc",
+    "signaling",
+    "voca"
+  ],
+  "author": "Trey Orr",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/treyorr/voca.git",
+    "directory": "packages/voca-client"
+  },
+  "homepage": "https://voca.vc",
+  "bugs": "https://github.com/treyorr/voca/issues",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "dependencies": {
+    "nanoevents": "^9.1.0"
+  }
+}

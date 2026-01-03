@@ -1,0 +1,5 @@
+# This file is used to define who owns what code in the repo.
+# GitHub will automatically request reviews from these users.
+
+# Match all files
+* @treyorr

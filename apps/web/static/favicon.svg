@@ -1,0 +1,12 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- White circular background -->
+  <circle cx="16" cy="16" r="16" fill="white" />
+  
+  <!-- Black talking symbol (centered and scaled relative to previous) -->
+  <g transform="translate(4, 4) scale(0.75)">
+    <path d="M8 24V8H20V18L14 24H8Z" stroke="black" stroke-width="2.5" stroke-linejoin="miter" />
+    <rect x="14" y="12" width="2" height="2" fill="black" />
+    <path d="M24 12V20" stroke="black" stroke-width="2.5" />
+    <path d="M28 10V22" stroke="black" stroke-width="2.5" />
+  </g>
+</svg>
