@@ -3,10 +3,17 @@
     "version": "0.1.0",
     "description": "React hooks for Voca WebRTC voice chat",
     "main": "dist/index.js",
-    "module": "dist/index.mjs",
+    "module": "dist/index.js",
     "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
+        }
+    },
     "scripts": {
-        "build": "bun build src/index.ts --outdir dist --format esm --external react --sourcemap=external --minify",
+        "build": "bun build src/index.ts --outdir dist --format esm --external react --sourcemap=external --minify && tsc --emitDeclarationOnly --outDir dist",
         "dev": "bun build src/index.ts --outdir dist --format esm --external react --watch",
         "lint": "tsc --noEmit"
     },

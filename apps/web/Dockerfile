@@ -1,4 +1,4 @@
-FROM oven/bun:1.1.42-alpine AS builder
+FROM oven/bun:1.3.5-alpine AS builder
 WORKDIR /app
 
 # Copy root workspace config
@@ -26,7 +26,7 @@ ENV VITE_VOCA_API_KEY=$VITE_VOCA_API_KEY
 RUN bun run build
 
 # Production stage
-FROM oven/bun:1.1.42-alpine
+FROM oven/bun:1.3.5-alpine
 WORKDIR /app
 
 # Copy node_modules with workspace links
