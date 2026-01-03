@@ -22,8 +22,6 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-
-
       - name: Build packages
         run: |
           cd packages/voca-client && bun run build
@@ -31,19 +29,16 @@ jobs:
           cd ../voca-react && bun run build
 
       - name: Publish @voca/client
-        run: cd packages/voca-client && bun publish --access public --provenance
+        run: cd packages/voca-client && bun publish
         env:
           NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
-        continue-on-error: true
 
       - name: Publish @voca/svelte
-        run: cd packages/voca-svelte && bun publish --access public --provenance
+        run: cd packages/voca-svelte && bun publish
         env:
           NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
-        continue-on-error: true
 
       - name: Publish @voca/react
-        run: cd packages/voca-react && bun publish --access public --provenance
+        run: cd packages/voca-react && bun publish
         env:
-          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
-        continue-on-error: true
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}  
