@@ -2,7 +2,10 @@
 
 **Open-source WebRTC voice chat.** Ephemeral rooms. No auth. Pure P2P.
 
-[![npm](https://img.shields.io/npm/v/@treyorr/voca-client)](https://www.npmjs.com/package/@treyorr/voca-client)
+[![CI](https://github.com/treyorr/voca/actions/workflows/ci.yml/badge.svg)](https://github.com/treyorr/voca/actions/workflows/ci.yml)
+[![npm @treyorr/voca-client](https://img.shields.io/npm/v/@treyorr/voca-client?label=voca-client)](https://www.npmjs.com/package/@treyorr/voca-client)
+[![npm @treyorr/voca-svelte](https://img.shields.io/npm/v/@treyorr/voca-svelte?label=voca-svelte)](https://www.npmjs.com/package/@treyorr/voca-svelte)
+[![npm @treyorr/voca-react](https://img.shields.io/npm/v/@treyorr/voca-react?label=voca-react)](https://www.npmjs.com/package/@treyorr/voca-react)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
