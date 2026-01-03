@@ -1,10 +1,10 @@
 /**
  * Voca WebRTC State Manager
  * 
- * Svelte 5 runes-based wrapper around @voca/client SDK.
+ * Svelte 5 runes-based wrapper around @treyorr/voca-client SDK.
  */
 
-import { VocaClient, type ConnectionStatus, type Peer, type VocaConfig } from '@voca/client';
+import { VocaClient, type ConnectionStatus, type Peer, type VocaConfig } from '@treyorr/voca-client';
 
 export { VocaClient };
 export type { ConnectionStatus, Peer, VocaConfig };

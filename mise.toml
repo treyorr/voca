@@ -18,18 +18,18 @@ mise run build-packages
 # ===== Build Packages =====
 
 [tasks.build-client]
-description = "Build @voca/client package"
+description = "Build @treyorr/voca-client package"
 dir = "packages/voca-client"
 run = "bun run build"
 
 [tasks.build-react]
-description = "Build @voca/react package"
+description = "Build @treyorr/voca-react package"
 dir = "packages/voca-react"
 run = "bun run build"
 wait_for = ["build-client"]
 
 [tasks.build-svelte]
-description = "Build @voca/svelte package"
+description = "Build @treyorr/voca-svelte package"
 dir = "packages/voca-svelte"
 run = "bun run build"
 

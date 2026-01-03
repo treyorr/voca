@@ -1,11 +1,11 @@
 /**
- * @voca/react
+ * @treyorr/voca-react
  * 
  * React hooks for Voca WebRTC voice chat.
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { VocaClient, type Peer, type ConnectionStatus, type VocaConfig } from '@voca/client';
+import { VocaClient, type Peer, type ConnectionStatus, type VocaConfig } from '@treyorr/voca-client';
 
 export type { Peer, ConnectionStatus, VocaConfig };
 
