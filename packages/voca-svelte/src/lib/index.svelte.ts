@@ -31,12 +31,12 @@ export class VocaRoom {
     }
 
     private setupListeners() {
-        this.client.on('status', (s) => {
+        this.client.on('status', (s: ConnectionStatus) => {
             this.status = s;
             this.isConnected = s === 'connected';
         });
 
-        this.client.on('error', (e) => {
+        this.client.on('error', (e: { code: string; message: string }) => {
             this.errorCode = e.code;
             this.error = e.message;
         });
@@ -45,14 +45,14 @@ export class VocaRoom {
         this.client.on('peer-left', () => this.updatePeers());
         this.client.on('track', () => this.updatePeers()); // Updates stream references
 
-        this.client.on('peer-audio-level', (id, level) => {
+        this.client.on('peer-audio-level', (id: string, level: number) => {
             // Trigger reactivity by creating a new Map reference
             // The underlying peer objects are mutation in the SDK, so we just need to let Svelte know something changed
             // Optimization: In a real app we might want granular reactivity per peer, but this matches original behavior
             this.peers = new Map(this.client.peers);
         });
 
-        this.client.on('local-audio-level', (level) => {
+        this.client.on('local-audio-level', (level: number) => {
             this.localAudioLevel = level;
         });
     }

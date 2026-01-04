@@ -20,14 +20,14 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build packages
+        run: mise run build-packages
+
       - name: Type check (lint)
         run: mise run lint
 
       - name: Check Rust compiles
         run: mise run check-rust
-
-      - name: Build packages
-        run: mise run build-packages
 
       - name: Run tests
         run: mise run test

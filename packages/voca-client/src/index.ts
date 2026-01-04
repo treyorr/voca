@@ -360,7 +360,7 @@ export class VocaClient {
                 }
                 break;
             case 'ping':
-                this.ws?.send(JSON.stringify({ from: '', type: 'pong' }));
+                this.send({ type: 'pong' });
                 break;
             case 'leave':
                 this.removePeer(msg.from);
@@ -457,9 +457,11 @@ export class VocaClient {
     }
 
     private send(msg: Partial<SignalMessage>) {
-        if (this.ws?.readyState === WebSocket.OPEN) {
-            this.ws.send(JSON.stringify({ from: '', ...msg }));
+        if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
+            // Queue or drop - for now we drop since this is a signaling race condition
+            return;
         }
+        this.ws.send(JSON.stringify({ from: '', ...msg }));
     }
 
     private handleError(code: VocaErrorCode | string, message: string) {
