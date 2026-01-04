@@ -1,4 +1,5 @@
 import { createNanoEvents } from 'nanoevents';
+import { VocaErrorCode, VocaErrorMessages, type VocaError, createVocaError } from './errors';
 export { VocaErrorCode, VocaErrorMessages, type VocaError, createVocaError } from './errors';
 
 export type ConnectionStatus = 'connecting' | 'connected' | 'reconnecting' | 'full' | 'error' | 'disconnected';
