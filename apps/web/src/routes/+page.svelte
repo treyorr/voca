@@ -12,7 +12,7 @@
 
     try {
       const client = await VocaClient.createRoom({
-        serverUrl: import.meta.env.DEV ? "ws://localhost:3001" : undefined,
+        serverUrl: import.meta.env.DEV ? "http://localhost:3001" : undefined,
         apiKey: import.meta.env.VITE_VOCA_API_KEY,
       });
       goto(`/${client.roomId}`);

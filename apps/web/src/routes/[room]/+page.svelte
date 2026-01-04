@@ -1,64 +1,23 @@
 <script lang="ts">
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
-  import { VocaRoom, type ConnectionStatus } from "@treyorr/voca-svelte";
+  import { VocaRoom } from "@treyorr/voca-svelte";
   import { onMount, onDestroy } from "svelte";
 
   const roomId = $derived(page.params.room);
   let room = $state<VocaRoom | null>(null);
 
-  // Room info from server
-  let roomInfo = $state<{
-    peers: number;
-    capacity: number;
-    full: boolean;
-  } | null>(null);
+  // Server URL - SDK auto-converts http to ws
+  const serverUrl = import.meta.env.DEV ? "http://localhost:3001" : undefined;
 
-  onMount(async () => {
+  onMount(() => {
     if (!roomId) {
       goto("/");
       return;
     }
 
-    // Check if room exists and get capacity info
-    try {
-      const apiHost = import.meta.env.DEV ? "http://localhost:3001" : "";
-      const response = await fetch(`${apiHost}/api/room/${roomId}`);
-
-      if (!response.ok) {
-        goto("/?error=room_not_found");
-        return;
-      }
-
-      roomInfo = await response.json();
-
-      // If room is already full, show error immediately
-      if (roomInfo?.full) {
-        room = new VocaRoom(roomId, {
-          serverUrl: import.meta.env.DEV ? "ws://localhost:3001" : undefined,
-        });
-        room.status = "full";
-        room.error = "This room is at capacity";
-        room.roomCapacity = roomInfo.capacity;
-        return;
-      }
-    } catch {
-      goto("/?error=connection_failed");
-      return;
-    }
-
-    // Initialize room
-    room = new VocaRoom(roomId, {
-      serverUrl: import.meta.env.DEV ? "ws://localhost:3001" : undefined,
-    });
-
-    if (roomInfo) {
-      room.roomCapacity = roomInfo.capacity;
-    }
-
-    room.connect().catch(() => {
-      // Error state is already set in VocaRoom
-    });
+    // Initialize and connect using only the SDK
+    room = new VocaRoom(roomId, { serverUrl });
   });
 
   onDestroy(() => {
@@ -76,11 +35,8 @@
 
   function retryConnection() {
     if (!roomId) return;
-    if (room) {
-      room.disconnect();
-    }
-    room = new VocaRoom(roomId);
-    room.connect().catch(() => {});
+    room?.disconnect();
+    room = new VocaRoom(roomId, { serverUrl });
   }
 </script>
 
@@ -88,7 +44,7 @@
   <title>voca.vc/{roomId}</title>
 </svelte:head>
 
-<!-- Brutalist Error Overlay -->
+<!-- Error Overlay -->
 {#if room?.status === "full" || room?.status === "error"}
   <div
     class="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4"
@@ -102,11 +58,7 @@
         {/if}
       </h1>
       <p class="text-sm mb-4">
-        {#if room.status === "full"}
-          This room has reached its maximum capacity of {room.roomCapacity} peers.
-        {:else}
-          {room.error ?? "An unexpected error occurred"}
-        {/if}
+        {room.error ?? "An unexpected error occurred"}
       </p>
       <div class="bg-black text-white px-2 py-1 text-xs mb-4 inline-block">
         {room.errorCode ?? "UNKNOWN"}

@@ -98,7 +98,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
 | Parameter | Required | Description |
 |-----------|----------|-------------|
 | `roomId` | Yes | Room ID to join |
-| `config.serverUrl` | Yes | Server URL (`https://voca.vc` or self-hosted) |
+| `config.serverUrl` | Yes | Server URL (`https://voca.vc` or `wss://voca.vc` or self-hosted) |
 | `config.apiKey` | No* | API key (*required for voca.vc) |
 
 ### Returns
