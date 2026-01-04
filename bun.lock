@@ -12,8 +12,8 @@
       "name": "web",
       "version": "0.0.1",
       "dependencies": {
-        "@treyorr/voca-client": "file:../../packages/voca-client",
-        "@treyorr/voca-svelte": "file:../../packages/voca-svelte",
+        "@treyorr/voca-client": "^0.2.0",
+        "@treyorr/voca-svelte": "^0.2.0",
       },
       "devDependencies": {
         "@sveltejs/kit": "^2.49.2",
@@ -29,7 +29,7 @@
     },
     "packages/voca-client": {
       "name": "@treyorr/voca-client",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "nanoevents": "^9.1.0",
       },
@@ -39,7 +39,7 @@
     },
     "packages/voca-react": {
       "name": "@treyorr/voca-react",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@treyorr/voca-client": "*",
       },
@@ -54,9 +54,9 @@
     },
     "packages/voca-svelte": {
       "name": "@treyorr/voca-svelte",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
-        "@treyorr/voca-client": "*",
+        "@treyorr/voca-client": "^0.2.0",
       },
       "devDependencies": {
         "@sveltejs/package": "^2.3.7",
@@ -424,12 +424,6 @@
 
     "svelte-check/chokidar": ["chokidar@4.0.3", "", { "dependencies": { "readdirp": "^4.0.1" } }, "sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA=="],
 
-    "web/@treyorr/voca-client": ["@treyorr/voca-client@file:packages/voca-client", { "dependencies": { "nanoevents": "^9.1.0" }, "devDependencies": { "typescript": "^5.9.3" } }],
-
-    "web/@treyorr/voca-svelte": ["@treyorr/voca-svelte@file:packages/voca-svelte", { "dependencies": { "@treyorr/voca-client": "*" }, "devDependencies": { "@sveltejs/package": "^2.3.7", "svelte": "^5.46.1", "svelte-check": "^4.3.5", "typescript": "^5.9.3" }, "peerDependencies": { "svelte": "^5.0.0" } }],
-
     "svelte-check/chokidar/readdirp": ["readdirp@4.1.2", "", {}, "sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg=="],
-
-    "web/@treyorr/voca-svelte/@treyorr/voca-client": ["@treyorr/voca-client@file:packages/voca-client", { "dependencies": { "nanoevents": "^9.1.0" }, "devDependencies": { "typescript": "^5.9.3" } }],
   }
 }
