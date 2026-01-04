@@ -13,8 +13,8 @@ voca.vc {
     }
 
     # Analytics
-    basicauth /analytics.html {
-        {$ANALYTICS_USER} {$ANALYTICS_PASSWORD_HASH}
+    basic_auth /analytics.html {
+        "{$ANALYTICS_USER}" "{$ANALYTICS_PASSWORD_HASH}"
     }
     handle /analytics.html {
         root * /var/www/html
