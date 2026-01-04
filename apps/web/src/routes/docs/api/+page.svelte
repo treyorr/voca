@@ -1,14 +1,20 @@
 <h1 class="text-3xl font-bold mb-6">API Reference</h1>
 
-<h2 class="text-2xl font-bold mt-8 mb-4" id="voca-client">@treyorr/voca-client</h2>
+<h2 class="text-2xl font-bold mt-8 mb-4" id="voca-client">
+  @treyorr/voca-client
+</h2>
 
 <h3 class="text-lg font-bold mt-6 mb-2">VocaClient.createRoom(config?)</h3>
 
-<p class="mb-2">Creates a new room on the server and returns a client instance.</p>
+<p class="mb-2">
+  Creates a new room on the server and returns a client instance.
+</p>
 
 <div class="brutalist-box mb-4">
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = await VocaClient.createRoom({
-  serverUrl: 'wss://your-server.com',
+  <pre
+    class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = await VocaClient.createRoom({
+  serverUrl: 'https://voca.vc',
+  apiKey: 'your-api-key',
 });
 console.log(client.roomId); // e.g. "abc123"`}</pre>
 </div>
@@ -18,7 +24,8 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
 <p class="mb-2">Join an existing room by ID.</p>
 
 <div class="brutalist-box mb-4">
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = new VocaClient('abc123', config);`}</pre>
+  <pre
+    class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = new VocaClient('abc123', config);`}</pre>
 </div>
 
 <h4 class="font-bold mt-4 mb-2">Config Options</h4>
@@ -34,7 +41,12 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
     <tr class="border-t border-black">
       <td class="p-2 font-mono">serverUrl</td>
       <td class="p-2">string</td>
-      <td class="p-2">WebSocket server URL</td>
+      <td class="p-2">Server URL (https://voca.vc or your own)</td>
+    </tr>
+    <tr class="border-t border-black">
+      <td class="p-2 font-mono">apiKey</td>
+      <td class="p-2">string</td>
+      <td class="p-2">API key for authentication</td>
     </tr>
     <tr class="border-t border-black">
       <td class="p-2 font-mono">reconnect</td>
@@ -88,7 +100,10 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
   <tbody>
     <tr class="border-t border-black">
       <td class="p-2 font-mono">status</td>
-      <td class="p-2">'connecting' | 'connected' | 'reconnecting' | 'disconnected' | 'error' | 'full'</td>
+      <td class="p-2"
+        >'connecting' | 'connected' | 'reconnecting' | 'disconnected' | 'error'
+        | 'full'</td
+      >
     </tr>
     <tr class="border-t border-black">
       <td class="p-2 font-mono">error</td>
@@ -117,7 +132,12 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
   </tbody>
 </table>
 
-<h2 class="text-2xl font-bold mt-12 mb-4 pt-4 border-t-2 border-black" id="error-codes">Error Codes</h2>
+<h2
+  class="text-2xl font-bold mt-12 mb-4 pt-4 border-t-2 border-black"
+  id="error-codes"
+>
+  Error Codes
+</h2>
 
 <table class="w-full text-sm border-2 border-black">
   <thead class="bg-black text-white">

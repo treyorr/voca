@@ -1,7 +1,8 @@
 <h1 class="text-3xl font-bold mb-6">Self-Hosting</h1>
 
 <p class="mb-4">
-  Run your own Voca signaling server. Just the Rust server—no UI, no database, no external dependencies.<br />
+  Run your own Voca signaling server. Just the Rust server—no UI, no database,
+  no external dependencies.<br />
   Build your own apps on top using the SDK.
 </p>
 
@@ -9,15 +10,17 @@
 
 <div class="brutalist-box mb-6">
   <p class="font-bold text-sm mb-2">1. Pull & Run</p>
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`docker run -p 3001:3001 \\
+  <pre
+    class="bg-black text-white p-3 text-sm overflow-x-auto">{`docker run -p 3001:3001 \\
   -e VOCA_ADMIN_TOKEN=your-secret-token \\
   ghcr.io/treyorr/voca-signaling:latest`}</pre>
 </div>
 
 <div class="brutalist-box mb-6">
   <p class="font-bold text-sm mb-2">2. Point SDK to Your Server</p>
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = new VocaClient(roomId, {
-  serverUrl: 'wss://your-domain.com',
+  <pre
+    class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = new VocaClient(roomId, {
+  serverUrl: 'https://your-domain.com',
 });`}</pre>
 </div>
 
@@ -101,12 +104,14 @@ export VOCA_ADMIN_TOKEN=your-secret
 <h2 class="text-2xl font-bold mt-8 mb-4">Admin API</h2>
 
 <p class="mb-4">
-  The server provides REST API endpoints for monitoring. All admin endpoints require Bearer authentication.
+  The server provides REST API endpoints for monitoring. All admin endpoints
+  require Bearer authentication.
 </p>
 
 <div class="brutalist-box mb-6">
   <h3 class="font-bold mb-2">Available Endpoints</h3>
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`# List active rooms
+  <pre
+    class="bg-black text-white p-3 text-sm overflow-x-auto">{`# List active rooms
 curl -H "Authorization: Bearer \${VOCA_ADMIN_TOKEN}" \\
   https://your-domain.com/api/admin/rooms
 
@@ -134,6 +139,6 @@ voca.yourdomain.com {
 <h2 class="text-2xl font-bold mt-8 mb-4">Health Check</h2>
 
 <div class="brutalist-box mb-6">
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`curl https://your-domain.com/health`}</pre>
+  <pre
+    class="bg-black text-white p-3 text-sm overflow-x-auto">{`curl https://your-domain.com/health`}</pre>
 </div>
-

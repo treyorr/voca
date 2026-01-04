@@ -7,31 +7,34 @@
 <div class="space-y-2 mb-6">
   <div class="brutalist-box">
     <p class="font-bold text-sm mb-1">Core (any framework)</p>
-    <pre class="bg-black text-white p-2 text-sm">npm install @treyorr/voca-client</pre>
+    <pre
+      class="bg-black text-white p-2 text-sm">npm install @treyorr/voca-client</pre>
   </div>
   <div class="brutalist-box">
     <p class="font-bold text-sm mb-1">Svelte 5</p>
-    <pre class="bg-black text-white p-2 text-sm">npm install @treyorr/voca-svelte</pre>
+    <pre
+      class="bg-black text-white p-2 text-sm">npm install @treyorr/voca-svelte</pre>
   </div>
   <div class="brutalist-box">
     <p class="font-bold text-sm mb-1">React</p>
-    <pre class="bg-black text-white p-2 text-sm">npm install @treyorr/voca-react</pre>
+    <pre
+      class="bg-black text-white p-2 text-sm">npm install @treyorr/voca-react</pre>
   </div>
 </div>
 
 <h2 class="text-xl font-bold mt-8 mb-4">2. Create a Room</h2>
 
-<p class="mb-4">
-  Before users can join a voice chat, create a room:
-</p>
+<p class="mb-4">Before users can join a voice chat, create a room:</p>
 
 <div class="brutalist-box mb-6">
   <p class="font-bold text-sm mb-2">Create Room & Get Shareable Link</p>
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { VocaClient } from '@treyorr/voca-client';
+  <pre
+    class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { VocaClient } from '@treyorr/voca-client';
 
 // Create a new room
 const client = await VocaClient.createRoom({
-  serverUrl: 'wss://voca.vc', // Or your own server
+  serverUrl: 'https://voca.vc',
+  apiKey: 'your-api-key', // Get from voca.vc/docs
 });
 
 // Get the room ID to share
@@ -48,10 +51,14 @@ await client.connect();`}</pre>
 
 <div class="brutalist-box mb-6">
   <p class="font-bold text-sm mb-2">React Example</p>
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { useVocaRoom } from '@treyorr/voca-react';
+  <pre
+    class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { useVocaRoom } from '@treyorr/voca-react';
 
 function VoiceRoom({ roomId }) {
-  const { status, peers, toggleMute, isMuted } = useVocaRoom(roomId);
+  const { status, peers, toggleMute, isMuted } = useVocaRoom(roomId, {
+    serverUrl: 'https://voca.vc',
+    apiKey: 'your-api-key',
+  });
 
   return (
     <div>
@@ -70,7 +77,8 @@ function VoiceRoom({ roomId }) {
 <p class="mb-4">Monitor room activity and audio levels:</p>
 
 <div class="brutalist-box mb-6">
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`client.on('peer-joined', (peerId) => {
+  <pre
+    class="bg-black text-white p-3 text-sm overflow-x-auto">{`client.on('peer-joined', (peerId) => {
   console.log('User joined:', peerId);
 });
 
