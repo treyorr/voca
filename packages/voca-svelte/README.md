@@ -1,6 +1,6 @@
 # @treyorr/voca-svelte
 
-Svelte 5 wrapper for [Voca](https://voca.vc) WebRTC voice chat with reactive runes.
+Svelte 5 wrapper for [Voca](https://voca.vc) WebRTC voice chat.
 
 [![npm](https://img.shields.io/npm/v/@treyorr/voca-svelte)](https://www.npmjs.com/package/@treyorr/voca-svelte)
 
@@ -8,31 +8,46 @@ Svelte 5 wrapper for [Voca](https://voca.vc) WebRTC voice chat with reactive run
 
 ```bash
 npm install @treyorr/voca-svelte
-# or
-bun add @treyorr/voca-svelte
 ```
 
-## Quick Start
+## Prerequisites
 
-### Create and Join a Room
+You need a Voca server to connect to:
+- **Free**: Use `wss://voca.vc` with an API key from [voca.vc/docs](https://voca.vc/docs)
+- **Self-hosted**: Run your own server (see [self-hosting guide](https://voca.vc/docs/self-hosting))
+
+## What This Package Provides
+
+This package provides **reactive Svelte 5 state** around the core `@treyorr/voca-client`:
+
+- `VocaRoom` - A class with reactive `$state` properties for Svelte components
+- `VocaClient` - Re-exported for room creation
+
+## Usage
+
+### Full Example: Create Room → Join → Voice Chat
 
 ```svelte
 <script lang="ts">
   import { VocaClient, VocaRoom } from '@treyorr/voca-svelte';
-  import { onMount, onDestroy } from 'svelte';
+  import { onDestroy } from 'svelte';
+
+  const SERVER_URL = 'wss://voca.vc';
+  const API_KEY = 'your-api-key'; // Get from voca.vc/docs
 
   let room = $state<VocaRoom | null>(null);
+  let roomId = $state<string | null>(null);
 
-  async function createAndJoin() {
-    // Create a new room using the core client
+  async function createRoom() {
+    // Step 1: Create a room on the server
     const client = await VocaClient.createRoom({
-      serverUrl: 'wss://voca.vc',
+      serverUrl: SERVER_URL,
+      apiKey: API_KEY,
     });
-    
-    // Use VocaRoom for reactive Svelte state
-    room = new VocaRoom(client.roomId, {
-      serverUrl: 'wss://voca.vc',
-    });
+    roomId = client.roomId;
+
+    // Step 2: Create reactive VocaRoom and connect
+    room = new VocaRoom(roomId, { serverUrl: SERVER_URL, apiKey: API_KEY });
     await room.connect();
   }
 
@@ -40,13 +55,14 @@ bun add @treyorr/voca-svelte
 </script>
 
 {#if room?.isConnected}
+  <p>Room: {roomId}</p>
   <p>Status: {room.status}</p>
   <p>Peers: {room.peerCount}</p>
   <button onclick={() => room?.toggleMute()}>
     {room.isMuted ? 'Unmute' : 'Mute'}
   </button>
 {:else}
-  <button onclick={createAndJoin}>Create Room</button>
+  <button onclick={createRoom}>Create Room</button>
 {/if}
 ```
 
@@ -58,59 +74,45 @@ bun add @treyorr/voca-svelte
   import { onMount, onDestroy } from 'svelte';
 
   let { roomId } = $props<{ roomId: string }>();
-  
-  let room = new VocaRoom(roomId, {
+
+  const room = new VocaRoom(roomId, {
     serverUrl: 'wss://voca.vc',
+    apiKey: 'your-api-key',
   });
 
   onMount(() => room.connect());
   onDestroy(() => room.disconnect());
 </script>
 
-<p>Room: {roomId}</p>
 <p>Status: {room.status}</p>
+<p>Peers: {room.peerCount}</p>
 ```
 
-## API
+## VocaRoom API
 
-### `VocaRoom`
-
-Reactive wrapper around `VocaClient` with Svelte 5 runes.
-
-#### Reactive State (runes)
+### Reactive Properties (Svelte 5 runes)
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `status` | `ConnectionStatus` | Current connection state |
-| `isConnected` | `boolean` | Whether connected to room |
+| `status` | `ConnectionStatus` | `'connecting'`, `'connected'`, `'error'`, etc. |
+| `isConnected` | `boolean` | Whether connected |
 | `peers` | `Map<string, Peer>` | Connected peers |
-| `peerCount` | `number` | Number of peers + you |
-| `isMuted` | `boolean` | Local audio mute state |
-| `localAudioLevel` | `number` | Your speaking level (0-1) |
-| `error` | `string \| null` | Error message if any |
-| `errorCode` | `string \| null` | Error code if any |
+| `peerCount` | `number` | Total participants (including you) |
+| `isMuted` | `boolean` | Your mute state |
+| `localAudioLevel` | `number` | Your audio level (0-1) |
+| `error` | `string \| null` | Error message |
 
-#### Methods
+### Methods
 
 | Method | Description |
 |--------|-------------|
 | `connect()` | Connect to room |
 | `disconnect()` | Leave room |
-| `toggleMute()` | Toggle local audio |
-| `getPulseStyle(level)` | Get CSS for audio pulse animation |
-| `getStatusLabel()` | Get human-readable status |
-
-### `VocaClient`
-
-Re-exported from `@treyorr/voca-client` for room creation:
-
-```typescript
-const client = await VocaClient.createRoom({ serverUrl: 'wss://voca.vc' });
-```
+| `toggleMute()` | Toggle your microphone |
 
 ## Requirements
 
-- Svelte 5 (uses runes: `$state`, `$props`, `$derived`)
+- Svelte 5+ (uses `$state`, `$props`, `$derived` runes)
 
 ## License
 
