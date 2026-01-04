@@ -1,7 +1,7 @@
 use axum::{
     extract::{ws::{Message, WebSocket}, Path, Query, State, WebSocketUpgrade},
     http::{StatusCode, HeaderMap},
-    response::{IntoResponse, Json, Html},
+    response::{IntoResponse, Json},
 };
 use axum_extra::{headers::{authorization::Bearer, Authorization}, TypedHeader};
 use futures::{SinkExt, StreamExt};
@@ -271,9 +271,6 @@ pub async fn admin_logs(
     Json(serde_json::json!({ "logs": recent_lines })).into_response()
 }
 
-pub async fn health_check() -> impl IntoResponse {
-    Html("OK")
-}
 
 pub async fn ws_handler(
     ws: WebSocketUpgrade,

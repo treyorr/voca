@@ -135,10 +135,3 @@ voca.yourdomain.com {
     reverse_proxy localhost:3001
 }`}</pre>
 </div>
-
-<h2 class="text-2xl font-bold mt-8 mb-4">Health Check</h2>
-
-<div class="brutalist-box mb-6">
-  <pre
-    class="bg-black text-white p-3 text-sm overflow-x-auto">{`curl https://your-domain.com/health`}</pre>
-</div>

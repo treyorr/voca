@@ -7,8 +7,9 @@
   const roomId = $derived(page.params.room);
   let room = $state<VocaRoom | null>(null);
 
-  // Server URL - SDK auto-converts http to ws
+  // Config - SDK auto-converts http to ws. Uses public key as fallback.
   const serverUrl = import.meta.env.DEV ? "http://localhost:3001" : undefined;
+  const apiKey = import.meta.env.VITE_VOCA_API_KEY || "";
 
   onMount(() => {
     if (!roomId) {
@@ -17,7 +18,10 @@
     }
 
     // Initialize and connect using only the SDK
-    room = new VocaRoom(roomId, { serverUrl });
+    room = new VocaRoom(roomId, { serverUrl, apiKey });
+    room.connect().catch(() => {
+      // Errors are handled via VocaRoom's reactive state
+    });
   });
 
   onDestroy(() => {
@@ -36,7 +40,7 @@
   function retryConnection() {
     if (!roomId) return;
     room?.disconnect();
-    room = new VocaRoom(roomId, { serverUrl });
+    room = new VocaRoom(roomId, { serverUrl, apiKey });
   }
 </script>
 

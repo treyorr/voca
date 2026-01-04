@@ -77,7 +77,7 @@ This package provides **reactive Svelte 5 state** around the core `@treyorr/voca
 
   const room = new VocaRoom(roomId, {
     serverUrl: 'https://voca.vc',
-    apiKey: 'your-api-key',
+    apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
   });
 
   onMount(() => room.connect());

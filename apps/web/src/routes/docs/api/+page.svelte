@@ -14,7 +14,7 @@
   <pre
     class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = await VocaClient.createRoom({
   serverUrl: 'https://voca.vc',
-  apiKey: 'your-api-key',
+  apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
 });
 console.log(client.roomId); // e.g. "abc123"`}</pre>
 </div>

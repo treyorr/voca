@@ -11,25 +11,22 @@
 <!-- SDK Selector -->
 <div class="flex gap-2 mb-8">
   <button
-    class="brutalist-button text-sm {selectedSdk === 'core'
-      ? 'bg-black text-white'
-      : ''}"
+    class="brutalist-button text-sm"
+    class:btn-active={selectedSdk === "core"}
     onclick={() => (selectedSdk = "core")}
   >
     Core SDK
   </button>
   <button
-    class="brutalist-button text-sm {selectedSdk === 'svelte'
-      ? 'bg-black text-white'
-      : ''}"
+    class="brutalist-button text-sm"
+    class:btn-active={selectedSdk === "svelte"}
     onclick={() => (selectedSdk = "svelte")}
   >
     Svelte 5
   </button>
   <button
-    class="brutalist-button text-sm {selectedSdk === 'react'
-      ? 'bg-black text-white'
-      : ''}"
+    class="brutalist-button text-sm"
+    class:btn-active={selectedSdk === "react"}
     onclick={() => (selectedSdk = "react")}
   >
     React
@@ -63,8 +60,8 @@
       class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { VocaClient } from '@treyorr/voca-client';
 
 const client = await VocaClient.createRoom({
-  serverUrl: 'https://voca.vc',  // or wss://
-  apiKey: 'your-api-key',
+  serverUrl: 'https://voca.vc',
+  apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
 });
 
 // Share this room ID with others
@@ -83,12 +80,12 @@ await client.connect();`}</pre>
   async function createRoom() {
     const client = await VocaClient.createRoom({
       serverUrl: 'https://voca.vc',
-      apiKey: 'your-api-key',
+      apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
     });
     
     room = new VocaRoom(client.roomId, {
       serverUrl: 'https://voca.vc',
-      apiKey: 'your-api-key',
+      apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
     });
     await room.connect();
   }
@@ -115,7 +112,7 @@ function App() {
   async function createRoom() {
     const client = await VocaClient.createRoom({
       serverUrl: 'https://voca.vc',
-      apiKey: 'your-api-key',
+      apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
     });
     setRoomId(client.roomId);
   }
@@ -130,7 +127,7 @@ function App() {
 function VoiceRoom({ roomId }: { roomId: string }) {
   const { status, peers, isMuted, toggleMute } = useVocaRoom(roomId, {
     serverUrl: 'https://voca.vc',
-    apiKey: 'your-api-key',
+    apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
   });
 
   return (
@@ -158,7 +155,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
 
 const client = new VocaClient('room-id-here', {
   serverUrl: 'https://voca.vc',
-  apiKey: 'your-api-key',
+  apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
 });
 
 await client.connect();
@@ -176,7 +173,7 @@ client.on('peer-left', (peerId) => console.log('Peer left:', peerId));`}</pre>
 
   const room = new VocaRoom(roomId, {
     serverUrl: 'https://voca.vc',
-    apiKey: 'your-api-key',
+    apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
   });
 
   onMount(() => room.connect());
@@ -203,7 +200,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
     disconnect,
   } = useVocaRoom(roomId, {
     serverUrl: 'https://voca.vc',
-    apiKey: 'your-api-key',
+    apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
   });
 
   return (
@@ -229,9 +226,23 @@ function VoiceRoom({ roomId }: { roomId: string }) {
 
 <!-- Note about API key -->
 <div class="brutalist-box mt-8">
-  <h3 class="font-bold mb-2">📌 Get Your API Key</h3>
+  <h3 class="font-bold mb-2">📌 Free API Key</h3>
   <p class="text-sm">
-    The hosted service at <strong>voca.vc</strong> is free to use. You can also
-    <a href="/docs/self-hosting" class="underline">self-host</a> for full control.
+    The hosted service at <strong>voca.vc</strong> is free for anyone to use with
+    this API key:
+  </p>
+  <pre
+    class="bg-black text-white p-2 mt-2 text-xs inline-block">T8izjz8JpcWa3mtuhOFwprVk77uZKIzn</pre>
+  <p class="text-xs mt-2 italic">
+    Running your own server? See <a href="/docs/self-hosting" class="underline"
+      >self-hosting</a
+    >.
   </p>
 </div>
+
+<style>
+  .btn-active {
+    background-color: black !important;
+    color: white !important;
+  }
+</style>

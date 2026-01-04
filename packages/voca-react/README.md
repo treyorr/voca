@@ -78,7 +78,7 @@ import { useVocaRoom } from '@treyorr/voca-react';
 function VoiceRoom({ roomId }: { roomId: string }) {
   const { status, peers, isMuted, toggleMute } = useVocaRoom(roomId, {
     serverUrl: 'https://voca.vc',
-    apiKey: 'your-api-key',
+    apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
   });
 
   return (
@@ -98,7 +98,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
 | Parameter | Required | Description |
 |-----------|----------|-------------|
 | `roomId` | Yes | Room ID to join |
-| `config.serverUrl` | Yes | Server URL (`https://voca.vc` or `wss://voca.vc` or self-hosted) |
+| `config.serverUrl` | Yes | Server URL (e.g., `https://voca.vc` or self-hosted) |
 | `config.apiKey` | No* | API key (*required for voca.vc) |
 
 ### Returns

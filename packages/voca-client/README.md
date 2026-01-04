@@ -49,7 +49,7 @@ await client.connect();
 
 | Option | Required | Description |
 |--------|----------|-------------|
-| `serverUrl` | **Yes** | Server URL (`https://voca.vc` or `wss://voca.vc` or your self-hosted server) |
+| `serverUrl` | **Yes** | Server URL (e.g., `https://voca.vc` or your self-hosted server) |
 | `apiKey` | No* | API key for authentication (*required for voca.vc) |
 | `reconnect.enabled` | No | Auto-reconnect on disconnect (default: `true`) |
 | `reconnect.maxAttempts` | No | Max reconnection attempts (default: `5`) |

@@ -1,10 +1,12 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-
   import { VocaClient } from "@treyorr/voca-svelte";
 
   let isCreating = $state(false);
   let error = $state<string | null>(null);
+
+  const serverUrl = import.meta.env.DEV ? "http://localhost:3001" : undefined;
+  const apiKey = import.meta.env.VITE_VOCA_API_KEY || "";
 
   async function createRoom() {
     isCreating = true;
@@ -12,8 +14,8 @@
 
     try {
       const client = await VocaClient.createRoom({
-        serverUrl: import.meta.env.DEV ? "http://localhost:3001" : undefined,
-        apiKey: import.meta.env.VITE_VOCA_API_KEY,
+        serverUrl,
+        apiKey,
       });
       goto(`/${client.roomId}`);
     } catch (err) {

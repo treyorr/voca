@@ -15,7 +15,7 @@ use tower_http::cors::CorsLayer;
 use tracing::info;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-use crate::handlers::{admin_logs, admin_metrics, admin_rooms, check_room, create_room, ws_handler, health_check};
+use crate::handlers::{admin_logs, admin_metrics, admin_rooms, check_room, create_room, ws_handler};
 use crate::state::{AppState, MAX_GLOBAL_ROOMS, MAX_PEERS_PER_ROOM};
 
 #[tokio::main]
@@ -133,7 +133,6 @@ async fn main() {
 
     let app = Router::new()
         .merge(room_routes)
-        .route("/health", get(health_check))
         .route("/api/room/{room}", get(check_room))
         .route("/api/admin/rooms", get(admin_rooms))
         .route("/api/admin/metrics", get(admin_metrics))

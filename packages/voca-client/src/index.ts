@@ -1,6 +1,4 @@
 import { createNanoEvents } from 'nanoevents';
-import { VocaErrorCode, VocaErrorMessages, type VocaError, createVocaError } from './errors';
-
 export { VocaErrorCode, VocaErrorMessages, type VocaError, createVocaError } from './errors';
 
 export type ConnectionStatus = 'connecting' | 'connected' | 'reconnecting' | 'full' | 'error' | 'disconnected';
@@ -91,12 +89,9 @@ export class VocaClient {
      * @returns Promise<VocaClient> - A new client instance for the created room
      */
     static async createRoom(config: VocaConfig = {}): Promise<VocaClient> {
-        // Determine the HTTP base URL from serverUrl or window.location
-        const serverUrl = config.serverUrl
-            ? config.serverUrl.replace(/^ws/, 'http')
-            : (typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}` : '');
+        const httpUrl = VocaClient.getHttpUrl(config.serverUrl);
 
-        if (!serverUrl) {
+        if (!httpUrl) {
             throw new Error('VocaConfig.serverUrl is required in non-browser environments');
         }
 
@@ -108,7 +103,7 @@ export class VocaClient {
             headers['x-api-key'] = config.apiKey;
         }
 
-        const response = await fetch(`${serverUrl}/api/room`, {
+        const response = await fetch(`${httpUrl}/api/room`, {
             method: 'POST',
             headers,
             body: JSON.stringify(config)
@@ -121,6 +116,43 @@ export class VocaClient {
 
         const { room } = await response.json();
         return new VocaClient(room, config);
+    }
+
+    /**
+     * Derive an HTTP/HTTPS URL from any input format.
+     * Accepts: https://, http://, wss://, ws://
+     * Returns: https:// or http:// URL
+     */
+    private static getHttpUrl(serverUrl?: string): string {
+        if (!serverUrl) {
+            if (typeof window !== 'undefined') {
+                return `${window.location.protocol}//${window.location.host}`;
+            }
+            return '';
+        }
+        // Normalize to HTTP(S)
+        if (serverUrl.startsWith('wss://')) return serverUrl.replace('wss://', 'https://');
+        if (serverUrl.startsWith('ws://')) return serverUrl.replace('ws://', 'http://');
+        return serverUrl;
+    }
+
+    /**
+     * Derive a WebSocket URL from any input format.
+     * Accepts: https://, http://, wss://, ws://
+     * Returns: wss:// or ws:// URL
+     */
+    private static getWsUrl(serverUrl?: string): string {
+        if (!serverUrl) {
+            if (typeof window !== 'undefined') {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                return `${protocol}//${window.location.host}`;
+            }
+            throw new Error('VocaConfig.serverUrl is required in non-browser environments');
+        }
+        // Normalize to WS(S)
+        if (serverUrl.startsWith('https://')) return serverUrl.replace('https://', 'wss://');
+        if (serverUrl.startsWith('http://')) return serverUrl.replace('http://', 'ws://');
+        return serverUrl;
     }
 
     constructor(roomId: string, config: VocaConfig = {}) {
@@ -233,42 +265,24 @@ export class VocaClient {
     }
 
     /**
-     * Infer the WebSocket server URL from config or environment.
+     * Build the full WebSocket URL for connecting to a room.
      */
-    private getServerUrl(): string {
-        let url: string;
-        const config = this.config;
+    private getSocketUrl(): string {
+        const wsUrl = VocaClient.getWsUrl(this.config.serverUrl);
 
-        // Non-browser environments require explicit serverUrl
-        if (typeof window === 'undefined') {
-            if (!config.serverUrl) {
-                throw new Error('VocaConfig.serverUrl is required in non-browser environments');
-            }
-            url = config.serverUrl;
-        } else {
-            if (config.serverUrl) {
-                url = config.serverUrl;
-            } else {
-                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-                url = `${protocol}//${window.location.host}`;
-            }
-        }
-
-        // Ensure protocol is ws/wss
-        if (url.startsWith('https://')) url = url.replace('https://', 'wss://');
-        else if (url.startsWith('http://')) url = url.replace('http://', 'ws://');
+        // Build URL: base + path + query params
+        let fullUrl = `${wsUrl}/ws/${this.roomId}`;
 
         // Append apiKey if present
-        if (config.apiKey) {
-            const separator = url.includes('?') ? '&' : '?';
-            url += `${separator}apiKey=${encodeURIComponent(config.apiKey)}`;
+        if (this.config.apiKey) {
+            fullUrl += `?apiKey=${encodeURIComponent(this.config.apiKey)}`;
         }
 
-        return `${url}/ws/${this.roomId}`;
+        return fullUrl;
     }
 
     private connectSocket() {
-        const socketUrl = this.getServerUrl();
+        const socketUrl = this.getSocketUrl();
 
         this.ws = new WebSocket(socketUrl);
 

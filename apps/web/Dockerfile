@@ -1,12 +1,9 @@
+# NOTE: Build this from the monorepo root: docker build -t voca-web -f apps/web/Dockerfile .
 FROM oven/bun:1.3.5-alpine AS builder
 WORKDIR /app
 
 # Copy only web app files (packages come from npm)
 COPY apps/web/package.json apps/web/bun.lockb* ./
-
-# Replace local file references with npm versions for Docker build
-RUN sed -i 's|"file:../../packages/voca-client"|"^0.1.0"|g' package.json && \
-    sed -i 's|"file:../../packages/voca-svelte"|"^0.1.0"|g' package.json
 
 # Install dependencies from npm
 RUN bun install
@@ -30,4 +27,4 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/build ./build
 
 EXPOSE 3000
-CMD ["bun", "run", "build/index.js"]
+CMD ["bun", "build/index.js"]
