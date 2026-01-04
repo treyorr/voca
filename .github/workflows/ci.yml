@@ -85,6 +85,8 @@ jobs:
             export GITHUB_REPOSITORY_OWNER="${{ github.repository_owner }}"
             export VOCA_ADMIN_TOKEN="${{ secrets.VOCA_ADMIN_TOKEN }}"
             export VOCA_API_KEY="${{ secrets.VOCA_API_KEY }}"
+            export ANALYTICS_USER="${{ secrets.ANALYTICS_USER }}"
+            export ANALYTICS_PASSWORD_HASH="${{ secrets.ANALYTICS_PASSWORD_HASH }}"
             export ORIGIN="https://voca.vc"
             
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin

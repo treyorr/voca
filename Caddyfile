@@ -12,6 +12,15 @@ voca.vc {
         reverse_proxy signaling:3001
     }
 
+    # Analytics
+    basicauth /analytics.html {
+        {$ANALYTICS_USER} {$ANALYTICS_PASSWORD_HASH}
+    }
+    handle /analytics.html {
+        root * /var/www/html
+        file_server
+    }
+
     # All other routes to web frontend
     handle {
         reverse_proxy web:3000
