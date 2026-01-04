@@ -24,7 +24,7 @@ import { VocaClient } from '@treyorr/voca-client';
 
 // Create a new room
 const client = await VocaClient.createRoom({
-  serverUrl: 'wss://voca.vc',
+  serverUrl: 'https://voca.vc',
   apiKey: 'your-api-key', // Get this from voca.vc/docs
 });
 
@@ -38,7 +38,7 @@ await client.connect();
 
 ```typescript
 const client = new VocaClient('room-id-here', {
-  serverUrl: 'wss://voca.vc',
+  serverUrl: 'https://voca.vc',
   apiKey: 'your-api-key',
 });
 
@@ -49,7 +49,7 @@ await client.connect();
 
 | Option | Required | Description |
 |--------|----------|-------------|
-| `serverUrl` | **Yes** | WebSocket URL (`wss://voca.vc` or your self-hosted server) |
+| `serverUrl` | **Yes** | Server URL (`https://voca.vc` or your self-hosted server) |
 | `apiKey` | No* | API key for authentication (*required for voca.vc) |
 | `reconnect.enabled` | No | Auto-reconnect on disconnect (default: `true`) |
 | `reconnect.maxAttempts` | No | Max reconnection attempts (default: `5`) |

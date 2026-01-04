@@ -13,7 +13,7 @@ npm install @treyorr/voca-svelte
 ## Prerequisites
 
 You need a Voca server to connect to:
-- **Free**: Use `wss://voca.vc` with an API key from [voca.vc/docs](https://voca.vc/docs)
+- **Free**: Use `https://voca.vc` with an API key from [voca.vc/docs](https://voca.vc/docs)
 - **Self-hosted**: Run your own server (see [self-hosting guide](https://voca.vc/docs/self-hosting))
 
 ## What This Package Provides
@@ -32,7 +32,7 @@ This package provides **reactive Svelte 5 state** around the core `@treyorr/voca
   import { VocaClient, VocaRoom } from '@treyorr/voca-svelte';
   import { onDestroy } from 'svelte';
 
-  const SERVER_URL = 'wss://voca.vc';
+  const SERVER_URL = 'https://voca.vc';
   const API_KEY = 'your-api-key'; // Get from voca.vc/docs
 
   let room = $state<VocaRoom | null>(null);
@@ -76,7 +76,7 @@ This package provides **reactive Svelte 5 state** around the core `@treyorr/voca
   let { roomId } = $props<{ roomId: string }>();
 
   const room = new VocaRoom(roomId, {
-    serverUrl: 'wss://voca.vc',
+    serverUrl: 'https://voca.vc',
     apiKey: 'your-api-key',
   });
 

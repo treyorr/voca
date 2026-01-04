@@ -13,7 +13,7 @@ npm install @treyorr/voca-react
 ## Prerequisites
 
 You need a Voca server to connect to:
-- **Free**: Use `wss://voca.vc` with an API key from [voca.vc/docs](https://voca.vc/docs)
+- **Free**: Use `https://voca.vc` with an API key from [voca.vc/docs](https://voca.vc/docs)
 - **Self-hosted**: Run your own server (see [self-hosting guide](https://voca.vc/docs/self-hosting))
 
 ## What This Package Provides
@@ -29,7 +29,7 @@ You need a Voca server to connect to:
 import { useState } from 'react';
 import { VocaClient, useVocaRoom } from '@treyorr/voca-react';
 
-const SERVER_URL = 'wss://voca.vc';
+const SERVER_URL = 'https://voca.vc';
 const API_KEY = 'your-api-key'; // Get from voca.vc/docs
 
 function App() {
@@ -77,7 +77,7 @@ import { useVocaRoom } from '@treyorr/voca-react';
 
 function VoiceRoom({ roomId }: { roomId: string }) {
   const { status, peers, isMuted, toggleMute } = useVocaRoom(roomId, {
-    serverUrl: 'wss://voca.vc',
+    serverUrl: 'https://voca.vc',
     apiKey: 'your-api-key',
   });
 
@@ -98,7 +98,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
 | Parameter | Required | Description |
 |-----------|----------|-------------|
 | `roomId` | Yes | Room ID to join |
-| `config.serverUrl` | Yes | WebSocket URL (`wss://voca.vc` or self-hosted) |
+| `config.serverUrl` | Yes | Server URL (`https://voca.vc` or self-hosted) |
 | `config.apiKey` | No* | API key (*required for voca.vc) |
 
 ### Returns
