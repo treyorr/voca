@@ -254,6 +254,10 @@ export class VocaClient {
             }
         }
 
+        // Ensure protocol is ws/wss
+        if (url.startsWith('https://')) url = url.replace('https://', 'wss://');
+        else if (url.startsWith('http://')) url = url.replace('http://', 'ws://');
+
         // Append apiKey if present
         if (config.apiKey) {
             const separator = url.includes('?') ? '&' : '?';
