@@ -53,7 +53,7 @@
     <tr class="border-t border-black">
       <td class="p-2 font-mono">VOCA_MAX_GLOBAL_ROOMS</td>
       <td class="p-2">NO</td>
-      <td class="p-2">Default: 500</td>
+      <td class="p-2">Default: 10000</td>
     </tr>
     <tr class="border-t border-black">
       <td class="p-2 font-mono">VOCA_LOG_DIR</td>
@@ -81,7 +81,7 @@
       VOCA_ADMIN_TOKEN: \${VOCA_ADMIN_TOKEN}
       VOCA_API_KEY: \${VOCA_API_KEY}
       VOCA_MAX_PEERS_PER_ROOM: 6
-      VOCA_MAX_GLOBAL_ROOMS: 500
+      VOCA_MAX_GLOBAL_ROOMS: 10000
       RUST_LOG: info
     restart: unless-stopped`}</pre>
 </div>

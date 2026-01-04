@@ -59,7 +59,7 @@
 <div class="brutalist-box mb-6">
   <p class="text-sm mb-2"><strong>Per Server Instance:</strong></p>
   <ul class="text-sm list-disc ml-6 space-y-1">
-    <li>~500 concurrent rooms by default (configurable)</li>
+    <li>10000 concurrent rooms by default (configurable)</li>
     <li>6 peers per room by default (configurable)</li>
     <li>Minimal CPU/memory (Rust + no media processing)</li>
   </ul>
