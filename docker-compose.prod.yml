@@ -51,10 +51,10 @@ services:
     image: allinurl/goaccess:latest
     container_name: goaccess
     restart: unless-stopped
-    command: >
-      goaccess /var/log/caddy/voca.log --log-format=CADDY --real-time-html -o /var/www/html/analytics.html
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: [ "/bin/sh", "-c", "touch /var/log/caddy/voca.log && goaccess /var/log/caddy/voca.log --log-format=CADDY --real-time-html -o /var/www/html/analytics.html" ]
     volumes:
-      - caddy_logs:/var/log/caddy:ro
+      - caddy_logs:/var/log/caddy
       - caddy_html:/var/www/html
 
 volumes:
