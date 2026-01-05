@@ -52,7 +52,7 @@ services:
     container_name: goaccess
     restart: unless-stopped
     entrypoint: [ "/bin/sh", "-c" ]
-    command: [ "touch /var/log/caddy/voca.log && goaccess /var/log/caddy/voca.log --log-format=CADDY --real-time-html --ws-url=wss://voca.vc/analytics-ws --port=7890 -o /var/www/html/analytics.html" ]
+    command: [ "touch /var/log/caddy/voca.log && goaccess /var/log/caddy/voca.log --log-format=CADDY --real-time-html --ws-url=wss://voca.vc/analytics-ws -o /var/www/html/analytics.html" ]
     volumes:
       - ./logs/caddy:/var/log/caddy
       - ./logs/html:/var/www/html
