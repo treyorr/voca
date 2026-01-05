@@ -38,8 +38,8 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-      - caddy_logs:/var/log/caddy
-      - caddy_html:/var/www/html
+      - ./logs/caddy:/var/log/caddy
+      - ./logs/html:/var/www/html
     environment:
       - ANALYTICS_USER=${ANALYTICS_USER}
       - ANALYTICS_PASSWORD_HASH=${ANALYTICS_PASSWORD_HASH}
@@ -53,12 +53,12 @@ services:
     restart: unless-stopped
     entrypoint: [ "/bin/sh", "-c" ]
     command: [ "touch /var/log/caddy/voca.log && goaccess /var/log/caddy/voca.log --log-format=CADDY --real-time-html -o /var/www/html/analytics.html" ]
+    ports:
+      - "7890:7890"
     volumes:
-      - caddy_logs:/var/log/caddy
-      - caddy_html:/var/www/html
+      - ./logs/caddy:/var/log/caddy
+      - ./logs/html:/var/www/html
 
 volumes:
   caddy_data:
   caddy_config:
-  caddy_logs:
-  caddy_html:
