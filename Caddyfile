@@ -14,6 +14,8 @@ voca.vc {
         basic_auth {
             "{$ANALYTICS_USER}" "{$ANALYTICS_PASSWORD_HASH}"
         }
+        # Relaxed CSP for GoAccess analytics (requires unsafe-eval for templating)
+        header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';"
         root * /var/www/html
         file_server
     }
