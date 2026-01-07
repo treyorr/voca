@@ -10,7 +10,7 @@ use tokio::sync::broadcast;
 use tracing::{info, warn};
 
 use crate::state::{AppState, RoomKey, RoomState, generate_unique_slug, generate_peer_id};
-use crate::types::{AdminRoomsResponse, CreateRoomResponse, RoomFullResponse, RoomInfo, SignalMessage, SignalPayload};
+use crate::types::{AdminRoomsResponse, CreateRoomResponse, RoomInfo, SignalMessage, SignalPayload};
 
 const HEARTBEAT_INTERVAL: Duration = Duration::from_secs(15);
 const HEARTBEAT_TIMEOUT: Duration = Duration::from_secs(30);
@@ -104,12 +104,39 @@ pub async fn create_room(
     let max_peers = params.get("max_peers")
         .and_then(|s| s.parse::<usize>().ok());
 
-    // Pre-create the room with capacity
+    // Parse optional password from query params
+    let password = params.get("password").cloned();
+    
+    // Validate password format if provided
+    if let Some(ref pwd) = password {
+        if pwd.len() < 4 || pwd.len() > 12 {
+            return (
+                StatusCode::BAD_REQUEST,
+                Json(serde_json::json!({
+                    "error": "invalid_password",
+                    "message": "Password must be 4-12 characters"
+                })),
+            )
+                .into_response();
+        }
+        if !pwd.chars().all(|c| c.is_ascii_alphanumeric()) {
+            return (
+                StatusCode::BAD_REQUEST,
+                Json(serde_json::json!({
+                    "error": "invalid_password",
+                    "message": "Password must contain only letters and numbers"
+                })),
+            )
+                .into_response();
+        }
+    }
+
+    // Pre-create the room with capacity and password
     let key = RoomKey {
         app_id: app_id.clone(),
         room_id: slug.clone(),
     };
-    state.rooms.insert(key, RoomState::with_capacity(max_peers.unwrap_or(state.max_peers_per_room)));
+    state.rooms.insert(key, RoomState::with_capacity(max_peers.unwrap_or(state.max_peers_per_room), password.clone()));
 
     // Increment metrics counter
     state.rooms_created_today.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
@@ -119,10 +146,11 @@ pub async fn create_room(
         room_id = slug,
         app_id = app_id,
         max_peers = max_peers,
+        has_password = password.is_some(),
         total_rooms = state.rooms.len(),
         "Room created"
     );
-    Json(CreateRoomResponse { room: slug }).into_response()
+    Json(CreateRoomResponse { room: slug, password }).into_response()
 }
 
 pub async fn check_room(
@@ -153,11 +181,13 @@ pub async fn check_room(
             let peer_count = room_state.peers.len();
             let max_peers = room_state.max_peers;
             let is_full = peer_count >= max_peers;
+            let password_required = room_state.password.is_some();
             Json(serde_json::json!({
                 "exists": true,
                 "peers": peer_count,
                 "capacity": max_peers,
-                "full": is_full
+                "full": is_full,
+                "password_required": password_required
             }))
             .into_response()
         }
@@ -272,6 +302,21 @@ pub async fn admin_logs(
 }
 
 
+/// Helper to send an error message over WebSocket and close
+async fn send_error_and_close(mut socket: WebSocket, code: &str, message: &str) {
+    let error_msg = SignalMessage {
+        from: "server".to_string(),
+        payload: SignalPayload::Error {
+            code: code.to_string(),
+            message: message.to_string(),
+        },
+    };
+    if let Ok(json) = serde_json::to_string(&error_msg) {
+        let _ = socket.send(Message::Text(json.into())).await;
+    }
+    let _ = socket.close().await;
+}
+
 pub async fn ws_handler(
     ws: WebSocketUpgrade,
     Path(room): Path<String>,
@@ -302,19 +347,32 @@ pub async fn ws_handler(
         None => return StatusCode::NOT_FOUND.into_response(),
     };
 
-    // Check capacity before upgrading
+    // Check password and capacity, but accept connection to send proper error
+    let password_error: Option<(&str, &str)> = if let Some(room_password) = &room_ref.password {
+        let provided_password = params.get("password");
+        match provided_password {
+            Some(pwd) if pwd == room_password => None,
+            Some(_) => Some(("invalid_password", "Incorrect password")),
+            None => Some(("password_required", "This room requires a password")),
+        }
+    } else {
+        None
+    };
+
+    // Check capacity
     let room_max_peers = room_ref.max_peers;
-    if room_ref.peers.len() >= room_max_peers {
-        return (
-            StatusCode::CONFLICT,
-            Json(RoomFullResponse {
-                error: "room_full".to_string(),
-                capacity: room_max_peers,
-            }),
-        )
-            .into_response();
-    }
+    let is_full = room_ref.peers.len() >= room_max_peers;
     drop(room_ref);
+
+    // Accept WebSocket connection and send any errors over the connection
+    // This allows the SDK to properly receive and handle these errors
+    if let Some((code, message)) = password_error {
+        return ws.on_upgrade(move |socket| send_error_and_close(socket, code, message)).into_response();
+    }
+
+    if is_full {
+        return ws.on_upgrade(move |socket| send_error_and_close(socket, "room_full", "Room is at maximum capacity")).into_response();
+    }
 
     ws.on_upgrade(move |socket| handle_socket(socket, key, state))
 }

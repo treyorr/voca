@@ -19,16 +19,18 @@ pub struct RoomState {
     pub peers: HashSet<String>,
     pub created_at: std::time::Instant,
     pub max_peers: usize,
+    pub password: Option<String>,
 }
 
 impl RoomState {
-    pub fn with_capacity(max_peers: usize) -> Self {
+    pub fn with_capacity(max_peers: usize, password: Option<String>) -> Self {
         let (tx, _) = broadcast::channel::<SignalMessage>(32);
         Self {
             tx,
             peers: HashSet::new(),
             created_at: std::time::Instant::now(),
             max_peers: max_peers.min(MAX_PEERS_PER_ROOM), // Cap at global max
+            password,
         }
     }
 }

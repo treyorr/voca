@@ -4,9 +4,9 @@
  * Svelte 5 runes-based wrapper around @treyorr/voca-client SDK.
  */
 
-import { VocaClient, type ConnectionStatus, type Peer, type VocaConfig } from '@treyorr/voca-client';
+import { VocaClient, validatePassword, type ConnectionStatus, type Peer, type VocaConfig } from '@treyorr/voca-client';
 
-export { VocaClient };
+export { VocaClient, validatePassword };
 export type { ConnectionStatus, Peer, VocaConfig };
 
 export class VocaRoom {

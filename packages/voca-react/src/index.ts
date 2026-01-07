@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { VocaClient, type Peer, type ConnectionStatus, type VocaConfig } from '@treyorr/voca-client';
+import { VocaClient, validatePassword, type Peer, type ConnectionStatus, type VocaConfig } from '@treyorr/voca-client';
 
 export type { Peer, ConnectionStatus, VocaConfig };
 
@@ -101,4 +101,4 @@ export function useVocaRoom(roomId: string, config?: VocaConfig): UseVocaRoomRes
     };
 }
 
-export { VocaClient };
+export { VocaClient, validatePassword };

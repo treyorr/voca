@@ -9,6 +9,7 @@ export interface VocaConfig {
     iceServers?: RTCIceServer[];
     serverUrl?: string; // e.g. "ws://localhost:3001" or "wss://voca.vc"
     apiKey?: string; // optional API key for signaling server auth
+    password?: string; // optional room password for protected rooms
     /**
      * Reconnection options. Enabled by default.
      */
@@ -52,6 +53,24 @@ interface VocaEvents {
     'peer-audio-level': (peerId: string, level: number) => void;
     'local-audio-level': (level: number) => void;
     'track': (peerId: string, track: MediaStreamTrack, stream: MediaStream) => void;
+}
+
+/**
+ * Validate password format for room creation.
+ * Returns null if valid, or an error message if invalid.
+ * 
+ * @param password - The password to validate
+ * @returns Error message if invalid, null if valid
+ */
+export function validatePassword(password: string): string | null {
+    if (!password) return null; // Empty is valid (no password)
+    if (password.length < 4 || password.length > 12) {
+        return 'Password must be 4-12 characters';
+    }
+    if (!/^[a-zA-Z0-9]+$/.test(password)) {
+        return 'Password must contain only letters and numbers';
+    }
+    return null;
 }
 
 const DEFAULT_ICE_SERVERS: RTCIceServer[] = [
@@ -104,10 +123,19 @@ export class VocaClient {
             headers['x-api-key'] = config.apiKey;
         }
 
-        const response = await fetch(`${httpUrl}/api/room`, {
+        // Build URL with optional password query param
+        let url = `${httpUrl}/api/room`;
+        const params = new URLSearchParams();
+        if (config.password) {
+            params.append('password', config.password);
+        }
+        if (params.toString()) {
+            url += `?${params.toString()}`;
+        }
+
+        const response = await fetch(url, {
             method: 'POST',
             headers,
-            body: JSON.stringify(config)
         });
 
         if (!response.ok) {
@@ -115,8 +143,10 @@ export class VocaClient {
             throw new Error(error.message || 'Failed to create room');
         }
 
-        const { room } = await response.json();
-        return new VocaClient(room, config);
+        const { room, password } = await response.json();
+        // Use the password from response (in case server modified it) or from config
+        const roomConfig = { ...config, password: password || config.password };
+        return new VocaClient(room, roomConfig);
     }
 
     /**
@@ -274,9 +304,20 @@ export class VocaClient {
         // Build URL: base + path + query params
         let fullUrl = `${wsUrl}/ws/${this.roomId}`;
 
+        const params = new URLSearchParams();
+
         // Append apiKey if present
         if (this.config.apiKey) {
-            fullUrl += `?apiKey=${encodeURIComponent(this.config.apiKey)}`;
+            params.append('apiKey', this.config.apiKey);
+        }
+
+        // Append password if present
+        if (this.config.password) {
+            params.append('password', this.config.password);
+        }
+
+        if (params.toString()) {
+            fullUrl += `?${params.toString()}`;
         }
 
         return fullUrl;

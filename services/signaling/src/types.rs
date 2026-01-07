@@ -27,12 +27,8 @@ pub enum SignalPayload {
 #[derive(Serialize)]
 pub struct CreateRoomResponse {
     pub room: String,
-}
-
-#[derive(Serialize)]
-pub struct RoomFullResponse {
-    pub error: String,
-    pub capacity: usize,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub password: Option<String>,
 }
 
 #[derive(Serialize)]

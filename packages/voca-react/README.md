@@ -40,6 +40,7 @@ function App() {
     const client = await VocaClient.createRoom({
       serverUrl: SERVER_URL,
       apiKey: API_KEY,
+      password: 'secret123', // Optional: protect room with password
     });
     setRoomId(client.roomId);
   }
@@ -79,6 +80,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
   const { status, peers, isMuted, toggleMute } = useVocaRoom(roomId, {
     serverUrl: 'https://voca.vc',
     apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
+    password: 'secret123', // Required if room is password-protected
   });
 
   return (
@@ -100,6 +102,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
 | `roomId` | Yes | Room ID to join |
 | `config.serverUrl` | Yes | Server URL (e.g., `https://voca.vc` or self-hosted) |
 | `config.apiKey` | No* | API key (*required for voca.vc) |
+| `config.password` | No | Room password (4-12 alphanumeric characters) |
 
 ### Returns
 

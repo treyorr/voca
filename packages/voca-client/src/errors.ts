@@ -24,6 +24,10 @@ export const VocaErrorCode = {
     // Signaling errors
     INVALID_MESSAGE: 'invalid_message',
     PEER_NOT_FOUND: 'peer_not_found',
+
+    // Password errors
+    INVALID_PASSWORD: 'invalid_password',
+    PASSWORD_REQUIRED: 'password_required',
 } as const;
 
 export type VocaErrorCode = typeof VocaErrorCode[keyof typeof VocaErrorCode];
@@ -44,6 +48,8 @@ export const VocaErrorMessages: Record<VocaErrorCode, string> = {
     [VocaErrorCode.INSECURE_CONTEXT]: 'HTTPS is required for microphone access',
     [VocaErrorCode.INVALID_MESSAGE]: 'Invalid signaling message received',
     [VocaErrorCode.PEER_NOT_FOUND]: 'Peer not found in room',
+    [VocaErrorCode.INVALID_PASSWORD]: 'Incorrect password',
+    [VocaErrorCode.PASSWORD_REQUIRED]: 'This room requires a password',
 };
 
 /**

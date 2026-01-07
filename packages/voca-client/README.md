@@ -26,6 +26,7 @@ import { VocaClient } from '@treyorr/voca-client';
 const client = await VocaClient.createRoom({
   serverUrl: 'https://voca.vc',
   apiKey: 'your-api-key', // Get this from voca.vc/docs
+  password: 'secret123', // Optional: 4-12 alphanumeric chars
 });
 
 console.log('Share this room ID:', client.roomId);
@@ -40,6 +41,7 @@ await client.connect();
 const client = new VocaClient('room-id-here', {
   serverUrl: 'https://voca.vc',
   apiKey: 'your-api-key',
+  password: 'secret123', // Required if room is password-protected
 });
 
 await client.connect();
@@ -51,6 +53,7 @@ await client.connect();
 |--------|----------|-------------|
 | `serverUrl` | **Yes** | Server URL (e.g., `https://voca.vc` or your self-hosted server) |
 | `apiKey` | No* | API key for authentication (*required for voca.vc) |
+| `password` | No | Room password (4-12 alphanumeric characters) |
 | `reconnect.enabled` | No | Auto-reconnect on disconnect (default: `true`) |
 | `reconnect.maxAttempts` | No | Max reconnection attempts (default: `5`) |
 
@@ -64,6 +67,7 @@ await client.connect();
 | `disconnect()` | Leave room and cleanup |
 | `toggleMute()` | Toggle mute, returns new state |
 | `on(event, callback)` | Subscribe to events |
+| `validatePassword(password)` | Validate password format, returns error or null |
 
 ## Events
 
