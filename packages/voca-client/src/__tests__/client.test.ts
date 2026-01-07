@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, mock } from 'bun:test';
-import { VocaClient } from '../index';
+import { VocaClient, validatePassword, VocaErrorCode } from '../index';
 
 // Mock WebSocket
 class MockWebSocket {
@@ -85,7 +85,7 @@ describe('VocaClient', () => {
 
         it('should accept custom config', () => {
             const client = new VocaClient('test-room', {
-                signalingUrl: 'wss://custom.example.com',
+                serverUrl: 'wss://custom.example.com',
             });
             expect(client).toBeDefined();
         });
@@ -134,6 +134,100 @@ describe('VocaClient', () => {
             } as Response));
 
             await expect(VocaClient.createRoom()).rejects.toThrow();
+        });
+
+        it('should include password in API request if provided', async () => {
+            const fetchMock = mock(() => Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({ room: 'new-room', password: 'testpassword' }),
+            } as Response));
+            globalThis.fetch = fetchMock;
+
+            await VocaClient.createRoom({ password: 'testpassword' });
+
+            const [url, options] = (fetchMock as any).mock.calls[0];
+            expect(url).toContain('password=testpassword');
+        });
+    });
+
+    describe('validatePassword', () => {
+        it('should return null for valid passwords', () => {
+            expect(validatePassword('trey123')).toBeNull();
+            expect(validatePassword('voca')).toBeNull();
+        });
+
+        it('should return null for empty/undefined (optional)', () => {
+            expect(validatePassword('')).toBeNull();
+        });
+
+        it('should reject passwords that are too short', () => {
+            expect(validatePassword('abc')).toBe('Password must be 4-12 characters');
+        });
+
+        it('should reject passwords that are too long', () => {
+            expect(validatePassword('toolongpassword123')).toBe('Password must be 4-12 characters');
+        });
+
+        it('should reject invalid characters', () => {
+            expect(validatePassword('trey!123')).toBe('Password must contain only letters and numbers');
+        });
+    });
+
+    describe('password handling', () => {
+        it('should include password in WebSocket URL', async () => {
+            const client = new VocaClient('test-room', {
+                password: 'secretpassword',
+            });
+            await client.connect();
+
+            // @ts-ignore - access private ws to check URL
+            expect(client.ws.url).toContain('password=secretpassword');
+        });
+
+        it('should emit error when password is required', async () => {
+            const client = new VocaClient('test-room');
+            const errorHandler = mock();
+            client.on('error', errorHandler);
+
+            await client.connect();
+
+            // Simulate server sending password_required error
+            // @ts-ignore - trigger onmessage
+            client.ws.onmessage({
+                data: JSON.stringify({
+                    from: 'server',
+                    type: 'error',
+                    code: 'password_required',
+                    message: 'Password required'
+                })
+            });
+
+            expect(errorHandler).toHaveBeenCalled();
+            const [error] = errorHandler.mock.calls[0];
+            expect(error.code).toBe(VocaErrorCode.PASSWORD_REQUIRED);
+        });
+
+        it('should emit error when password is invalid', async () => {
+            const client = new VocaClient('test-room', { password: 'wrong' });
+            const errorHandler = mock();
+            client.on('error', errorHandler);
+
+            await client.connect();
+
+            // Simulate server sending invalid_password error
+            // @ts-ignore - trigger onmessage
+            client.ws.onmessage({
+                data: JSON.stringify({
+                    from: 'server',
+                    type: 'error',
+                    code: 'invalid_password',
+                    message: 'Invalid password'
+                })
+            });
+
+            expect(errorHandler).toHaveBeenCalled();
+            const [error] = errorHandler.mock.calls[0];
+            expect(error.code).toBe(VocaErrorCode.INVALID_PASSWORD);
         });
     });
 
