@@ -432,7 +432,7 @@ async fn handle_socket(socket: WebSocket, key: RoomKey, state: AppState) {
     let welcome = SignalMessage {
         from: "server".to_string(),
         payload: SignalPayload::Welcome {
-            version: "1.0".to_string(),
+            version: "0.3.0".to_string(),
             peer_id: peer_id.clone(),
         },
     };

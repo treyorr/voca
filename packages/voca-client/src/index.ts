@@ -330,7 +330,7 @@ export class VocaClient {
 
         this.ws.onopen = () => {
             // Send hello message with version info
-            this.send({ type: 'hello', version: '1.0', client: '@treyorr/voca-client' });
+            this.send({ type: 'hello', version: '0.3.0', client: '@treyorr/voca-client' });
             this.status = 'connected';
             this.events.emit('status', 'connected');
             // Reset reconnect attempts on successful connection

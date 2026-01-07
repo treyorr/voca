@@ -1,6 +1,6 @@
 {
     "name": "@treyorr/voca-react",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "description": "React hooks for Voca WebRTC voice chat",
     "main": "dist/index.js",
     "module": "dist/index.js",
@@ -39,7 +39,7 @@
         "react": ">=18.0.0"
     },
     "dependencies": {
-        "@treyorr/voca-client": "^0.2.1"
+        "@treyorr/voca-client": "^0.3.0"
     },
     "devDependencies": {
         "@types/react": "^19.2.7",
