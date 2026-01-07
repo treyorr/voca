@@ -9,7 +9,7 @@
   <pre class="bg-black text-white p-3 text-sm overflow-x-auto">npm install @treyorr/voca-client</pre>
 </div>
 
-<div class="grid gap-4 md:grid-cols-2">
+<div class="grid gap-4 md:grid-cols-2 mt-4">
   <a href="/docs/getting-started" class="brutalist-box hover:bg-black hover:text-white transition-colors">
     <h3 class="font-bold">Getting Started →</h3>
     <p class="text-sm">Set up your first voice room in 5 minutes</p>
@@ -31,7 +31,7 @@
   </a>
 </div>
 
-<div class="mt-8 pt-4 border-t-2 border-black">
+<div class="mt-4 pt-4 border-t-2 border-black">
   <h2 class="font-bold mb-4">Available Packages</h2>
   
   <div class="grid gap-2 text-sm">

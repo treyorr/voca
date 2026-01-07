@@ -43,11 +43,16 @@ This package provides **reactive Svelte 5 state** around the core `@treyorr/voca
     const client = await VocaClient.createRoom({
       serverUrl: SERVER_URL,
       apiKey: API_KEY,
+      password: 'secret123', // Optional: protect room with password
     });
     roomId = client.roomId;
 
     // Step 2: Create reactive VocaRoom and connect
-    room = new VocaRoom(roomId, { serverUrl: SERVER_URL, apiKey: API_KEY });
+    room = new VocaRoom(roomId, { 
+      serverUrl: SERVER_URL, 
+      apiKey: API_KEY,
+      password: 'secret123', // Must match the password used to create room
+    });
     await room.connect();
   }
 
@@ -78,6 +83,7 @@ This package provides **reactive Svelte 5 state** around the core `@treyorr/voca
   const room = new VocaRoom(roomId, {
     serverUrl: 'https://voca.vc',
     apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
+    password: 'secret123', // Required if room is password-protected
   });
 
   onMount(() => room.connect());

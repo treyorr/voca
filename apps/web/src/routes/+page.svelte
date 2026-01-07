@@ -1,14 +1,31 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { VocaClient } from "@treyorr/voca-svelte";
+  import { VocaClient, validatePassword } from "@treyorr/voca-svelte";
 
   let isCreating = $state(false);
   let error = $state<string | null>(null);
+  let password = $state("");
+  let showPasswordInput = $state(false);
 
   const serverUrl = import.meta.env.DEV ? "http://localhost:3001" : undefined;
   const apiKey = import.meta.env.VITE_VOCA_API_KEY || "";
 
   async function createRoom() {
+    const trimmedPassword = password.trim();
+
+    // UI-specific validation: require password if input is shown
+    if (showPasswordInput && !trimmedPassword) {
+      error = "Please enter a password or click '- remove password'";
+      return;
+    }
+
+    // SDK validation: check format
+    const validationError = validatePassword(trimmedPassword);
+    if (validationError) {
+      error = validationError;
+      return;
+    }
+
     isCreating = true;
     error = null;
 
@@ -16,8 +33,11 @@
       const client = await VocaClient.createRoom({
         serverUrl,
         apiKey,
+        password: trimmedPassword || undefined,
       });
-      goto(`/${client.roomId}`);
+      goto(
+        `/${client.roomId}${trimmedPassword ? `?password=${encodeURIComponent(trimmedPassword)}` : ""}`,
+      );
     } catch (err) {
       error = err instanceof Error ? err.message : "Unknown error";
       isCreating = false;
@@ -39,7 +59,7 @@
     </p>
 
     <button
-      class="brutalist-button text-xl"
+      class="brutalist-button text-xl mb-4"
       onclick={createRoom}
       disabled={isCreating}
     >
@@ -49,6 +69,27 @@
         [ CREATE ROOM ]
       {/if}
     </button>
+    <br />
+    <button
+      type="button"
+      class="text-xs underline opacity-60 hover:opacity-100"
+      onclick={() => (showPasswordInput = !showPasswordInput)}
+    >
+      {showPasswordInput ? "- remove password" : "+ add password"}
+    </button>
+
+    {#if showPasswordInput}
+      <div class="mt-4">
+        <input
+          type="text"
+          bind:value={password}
+          placeholder="4-12 chars, letters/numbers only"
+          class="w-full border-2 border-black px-3 py-2 text-sm font-mono"
+          disabled={isCreating}
+          maxlength="12"
+        />
+      </div>
+    {/if}
 
     {#if error}
       <p class="mt-4 text-sm border border-black p-2 bg-black text-white">

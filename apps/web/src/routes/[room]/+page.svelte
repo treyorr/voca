@@ -6,10 +6,19 @@
 
   const roomId = $derived(page.params.room);
   let room = $state<VocaRoom | null>(null);
+  let passwordInput = $state("");
+  let roomPassword = $state<string | undefined>(undefined);
 
-  // Config - SDK auto-converts http to ws. Uses public key as fallback.
+  // Config - SDK auto-converts http to ws
   const serverUrl = import.meta.env.DEV ? "http://localhost:3001" : undefined;
   const apiKey = import.meta.env.VITE_VOCA_API_KEY || "";
+
+  // Derived state for password errors
+  const needsPassword = $derived(
+    room?.errorCode === "password_required" ||
+      room?.errorCode === "invalid_password",
+  );
+  const isPasswordWrong = $derived(room?.errorCode === "invalid_password");
 
   onMount(() => {
     if (!roomId) {
@@ -17,12 +26,38 @@
       return;
     }
 
-    // Initialize and connect using only the SDK
-    room = new VocaRoom(roomId, { serverUrl, apiKey });
-    room.connect().catch(() => {
-      // Errors are handled via VocaRoom's reactive state
-    });
+    // Extract password from URL if present
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlPassword = urlParams.get("password");
+
+    if (urlPassword) {
+      roomPassword = urlPassword;
+    }
+
+    connectToRoom(urlPassword ?? undefined);
   });
+
+  function connectToRoom(password?: string) {
+    room?.disconnect();
+    room = new VocaRoom(roomId, { serverUrl, apiKey, password });
+    room.connect().catch(() => {
+      // Errors handled via reactive state
+    });
+  }
+
+  function submitPassword() {
+    const password = passwordInput.trim();
+    if (!password) return;
+    roomPassword = password;
+    passwordInput = "";
+
+    // Update URL with the correct password
+    const url = new URL(window.location.href);
+    url.searchParams.set("password", password);
+    window.history.replaceState({}, "", url.toString());
+
+    connectToRoom(password);
+  }
 
   onDestroy(() => {
     room?.disconnect();
@@ -34,13 +69,15 @@
   }
 
   function copyLink() {
-    navigator.clipboard.writeText(window.location.href);
+    const url = new URL(window.location.href);
+    if (roomPassword) {
+      url.searchParams.set("password", roomPassword);
+    }
+    navigator.clipboard.writeText(url.toString());
   }
 
   function retryConnection() {
-    if (!roomId) return;
-    room?.disconnect();
-    room = new VocaRoom(roomId, { serverUrl, apiKey });
+    connectToRoom(roomPassword);
   }
 </script>
 
@@ -48,19 +85,57 @@
   <title>voca.vc/{roomId}</title>
 </svelte:head>
 
-<!-- Error Overlay -->
-{#if room?.status === "full" || room?.status === "error"}
+<!-- Password Modal - shown when password is required or incorrect -->
+{#if needsPassword}
+  <div
+    class="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4"
+  >
+    <div class="bg-white border-4 border-black p-8 max-w-md w-full">
+      <h1 class="text-2xl font-bold mb-4 font-mono">
+        {isPasswordWrong ? "INCORRECT PASSWORD" : "PASSWORD REQUIRED"}
+      </h1>
+      <p class="text-sm mb-4">
+        {isPasswordWrong
+          ? "The password you entered is incorrect. Please try again."
+          : "This room is password-protected. Enter the password to join."}
+      </p>
+      <form
+        onsubmit={(e) => {
+          e.preventDefault();
+          submitPassword();
+        }}
+      >
+        <input
+          type="password"
+          bind:value={passwordInput}
+          placeholder="Enter password"
+          class="w-full border-2 border-black px-3 py-2 text-sm font-mono mb-4"
+          autofocus
+        />
+        <div class="flex gap-2">
+          <button type="submit" class="brutalist-button flex-1">
+            [ JOIN ]
+          </button>
+          <button
+            type="button"
+            class="brutalist-button flex-1"
+            onclick={() => goto("/")}
+          >
+            [ CANCEL ]
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+{/if}
+
+<!-- Error Overlay (non-password errors) -->
+{#if room?.status === "error" && !needsPassword}
   <div
     class="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4"
   >
     <div class="bg-white border-4 border-black p-8 max-w-md w-full text-center">
-      <h1 class="text-4xl font-bold mb-4 font-mono">
-        {#if room.status === "full"}
-          ROOM FULL
-        {:else}
-          ERROR
-        {/if}
-      </h1>
+      <h1 class="text-4xl font-bold mb-4 font-mono">ERROR</h1>
       <p class="text-sm mb-4">
         {room.error ?? "An unexpected error occurred"}
       </p>
@@ -68,11 +143,28 @@
         {room.errorCode ?? "UNKNOWN"}
       </div>
       <div class="flex gap-2 justify-center flex-wrap">
-        {#if room.status !== "full"}
-          <button class="brutalist-button" onclick={retryConnection}>
-            [ RETRY ]
-          </button>
-        {/if}
+        <button class="brutalist-button" onclick={retryConnection}>
+          [ RETRY ]
+        </button>
+        <button class="brutalist-button" onclick={leaveRoom}>
+          [ GO HOME ]
+        </button>
+      </div>
+    </div>
+  </div>
+{/if}
+
+<!-- Room Full Overlay -->
+{#if room?.status === "full"}
+  <div
+    class="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4"
+  >
+    <div class="bg-white border-4 border-black p-8 max-w-md w-full text-center">
+      <h1 class="text-4xl font-bold mb-4 font-mono">ROOM FULL</h1>
+      <p class="text-sm mb-4">
+        {room.error ?? "This room is at maximum capacity"}
+      </p>
+      <div class="flex gap-2 justify-center">
         <button class="brutalist-button" onclick={leaveRoom}>
           [ GO HOME ]
         </button>
@@ -169,6 +261,6 @@
   >
     <pre>STATUS: {room?.getStatusLabel() ??
         "LOADING"} | PEERS: {room?.peerCount ?? 1}/{room?.roomCapacity ??
-        6} | ROOM: {roomId}</pre>
+        6} | ROOM: {roomId}{roomPassword ? " | 🔒" : ""}</pre>
   </footer>
 </main>

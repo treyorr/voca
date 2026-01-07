@@ -14,6 +14,7 @@
 - 🌐 **Pure P2P** — Audio never touches the server (WebRTC mesh)
 - ⚡ **Instant** — One-click room creation
 - 🔐 **Encrypted** — DTLS-SRTP for all audio
+- 🔑 **Optional Passwords** — Protect rooms with alphanumeric passwords
 - 📱 **Responsive** — Works on desktop and mobile
 
 ## SDK Packages
@@ -39,7 +40,9 @@ bun install @treyorr/voca-svelte   # Svelte 5
 import { useVocaRoom } from '@treyorr/voca-react';
 
 function VoiceRoom({ roomId }) {
-  const { status, peers, toggleMute, isMuted } = useVocaRoom(roomId);
+  const { status, peers, toggleMute, isMuted } = useVocaRoom(roomId, {
+    password: 'secret123' // Optional: protect room with password
+  });
   return (
     <button onClick={toggleMute}>{isMuted ? 'Unmute' : 'Mute'}</button>
   );
@@ -84,9 +87,9 @@ Open http://localhost:5173
 
 | Endpoint | Auth | Description |
 |----------|------|-------------|
-| `POST /api/room` | - | Create room → `{"room": "abc123"}` |
-| `GET /api/room/{id}` | - | Check if room exists |
-| `GET /ws/{id}` | - | WebSocket signaling |
+| `POST /api/room?password=<pwd>` | - | Create room (optional password) → `{"room": "abc123", "password": "pwd"}` |
+| `GET /api/room/{id}` | - | Check if room exists → `{"exists": true, "password_required": false}` |
+| `GET /ws/{id}?password=<pwd>` | - | WebSocket signaling (password required if room protected) |
 | `GET /api/admin/rooms` | Bearer | List all rooms |
 | `GET /api/admin/metrics` | Bearer | Usage metrics |
 

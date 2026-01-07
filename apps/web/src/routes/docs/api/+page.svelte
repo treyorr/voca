@@ -15,6 +15,7 @@
     class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = await VocaClient.createRoom({
   serverUrl: 'https://voca.vc',
   apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
+  password: 'secret123' // Optional: 4-12 alphanumeric chars
 });
 console.log(client.roomId); // e.g. "abc123"`}</pre>
 </div>
@@ -47,6 +48,11 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
       <td class="p-2 font-mono">apiKey</td>
       <td class="p-2">string</td>
       <td class="p-2">API key for authentication</td>
+    </tr>
+    <tr class="border-t border-black">
+      <td class="p-2 font-mono">password</td>
+      <td class="p-2">string</td>
+      <td class="p-2">Optional room password (4-12 alphanumeric characters)</td>
     </tr>
     <tr class="border-t border-black">
       <td class="p-2 font-mono">reconnect</td>
@@ -85,6 +91,26 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
       <td class="p-2 font-mono">on(event, callback)</td>
       <td class="p-2">Function</td>
       <td class="p-2">Subscribe to events, returns unsubscribe</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 class="font-bold mt-4 mb-2">Utility Functions</h4>
+<table class="w-full text-sm border-2 border-black mb-6">
+  <thead class="bg-black text-white">
+    <tr>
+      <th class="p-2 text-left">Function</th>
+      <th class="p-2 text-left">Returns</th>
+      <th class="p-2 text-left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="border-t border-black">
+      <td class="p-2 font-mono">validatePassword(pwd)</td>
+      <td class="p-2">string | null</td>
+      <td class="p-2"
+        >Validate password format, returns error message or null</td
+      >
     </tr>
   </tbody>
 </table>
@@ -174,6 +200,14 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
     <tr class="border-t border-black">
       <td class="p-2 font-mono">INSECURE_CONTEXT</td>
       <td class="p-2">HTTPS required</td>
+    </tr>
+    <tr class="border-t border-black">
+      <td class="p-2 font-mono">INVALID_PASSWORD</td>
+      <td class="p-2">Incorrect password provided</td>
+    </tr>
+    <tr class="border-t border-black">
+      <td class="p-2 font-mono">PASSWORD_REQUIRED</td>
+      <td class="p-2">Room requires a password</td>
     </tr>
   </tbody>
 </table>
