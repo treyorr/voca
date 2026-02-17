@@ -9,6 +9,20 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<script>
+		(() => {
+			try {
+				const stored = localStorage.getItem("voca-theme");
+				const theme = stored === "light" || stored === "dark" ? stored : "system";
+				const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+				const resolved = theme === "system" ? (prefersDark ? "dark" : "light") : theme;
+				document.documentElement.dataset.theme = theme;
+				document.documentElement.dataset.resolvedTheme = resolved;
+			} catch {
+				// Ignore storage/matchMedia errors and fall back to CSS defaults.
+			}
+		})();
+	</script>
 	%sveltekit.head%
 </head>
 

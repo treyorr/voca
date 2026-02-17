@@ -23,6 +23,7 @@
 		"vite": "^7.3.0"
 	},
 	"dependencies": {
-		"@treyorr/voca-svelte": "^0.3.0"
+		"@treyorr/voca-svelte": "^0.3.0",
+		"@lucide/svelte": "^0.574.0"
 	}
 }

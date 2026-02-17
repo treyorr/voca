@@ -10,6 +10,27 @@
 
 :root {
   --pulse: 1px;
+  color-scheme: light;
+}
+
+:root[data-resolved-theme="dark"] {
+  --color-black: #ffffff;
+  --color-white: #000000;
+  --color-voca-bg: #000000;
+  --color-voca-fg: #ffffff;
+  --color-voca-border: #ffffff;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-resolved-theme]) {
+    --color-black: #ffffff;
+    --color-white: #000000;
+    --color-voca-bg: #000000;
+    --color-voca-fg: #ffffff;
+    --color-voca-border: #ffffff;
+    color-scheme: dark;
+  }
 }
 
 * {
@@ -21,6 +42,111 @@ body {
   color: var(--color-voca-fg);
   margin: 0;
   padding: 0;
+  transition: background-color 200ms ease-out, color 200ms ease-out;
+}
+
+a,
+button,
+input,
+nav,
+main,
+pre,
+table,
+thead,
+tbody,
+tr,
+td,
+th,
+div {
+  transition: background-color 200ms ease-out, color 200ms ease-out, border-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: inline-flex;
+  gap: 0;
+  border: 1px solid var(--color-voca-border);
+  background: var(--color-voca-bg);
+  z-index: 120;
+}
+
+.theme-toggle button {
+  border: 0;
+  border-right: 1px solid var(--color-voca-border);
+  background: var(--color-voca-bg);
+  color: var(--color-voca-fg);
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle button:last-child {
+  border-right: 0;
+}
+
+.theme-toggle button.active {
+  background: var(--color-voca-fg);
+  color: var(--color-voca-bg);
+}
+
+.theme-toggle button:focus-visible {
+  outline: 2px solid var(--color-voca-border);
+  outline-offset: -2px;
+}
+
+.theme-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+:root[data-resolved-theme="dark"] .border-black {
+  border-color: var(--color-voca-border) !important;
+}
+
+:root[data-resolved-theme="dark"] .border-t-black {
+  border-top-color: var(--color-voca-border) !important;
+}
+
+:root[data-resolved-theme="dark"] .border-b-black {
+  border-bottom-color: var(--color-voca-border) !important;
+}
+
+:root[data-resolved-theme="dark"] .border-r-black {
+  border-right-color: var(--color-voca-border) !important;
+}
+
+:root[data-resolved-theme="dark"] .bg-white {
+  background-color: var(--color-voca-bg) !important;
+}
+
+:root[data-resolved-theme="dark"] .text-black {
+  color: var(--color-voca-fg) !important;
+}
+
+:root[data-resolved-theme="dark"] .bg-black {
+  background-color: var(--color-voca-fg) !important;
+}
+
+:root[data-resolved-theme="dark"] .text-white {
+  color: var(--color-voca-bg) !important;
+}
+
+:root[data-resolved-theme="dark"] .hover\:bg-black:hover {
+  background-color: var(--color-voca-fg) !important;
+}
+
+:root[data-resolved-theme="dark"] .hover\:text-white:hover {
+  color: var(--color-voca-bg) !important;
 }
 
 .brutalist-box {
