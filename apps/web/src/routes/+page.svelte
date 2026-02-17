@@ -1,14 +1,27 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { getThemeFromDom, getThemePreference, setThemePreference, type ThemePreference } from "$lib/theme";
+  import { Monitor, Moon, Sun } from "@lucide/svelte";
   import { VocaClient, validatePassword } from "@treyorr/voca-svelte";
+  import { onMount } from "svelte";
 
   let isCreating = $state(false);
   let error = $state<string | null>(null);
   let password = $state("");
   let showPasswordInput = $state(false);
+  let themePreference = $state<ThemePreference>("system");
 
   const serverUrl = import.meta.env.DEV ? "http://localhost:3001" : undefined;
   const apiKey = import.meta.env.VITE_VOCA_API_KEY || "";
+
+  const setTheme = (preference: ThemePreference) => {
+    themePreference = preference;
+    setThemePreference(preference);
+  };
+
+  onMount(() => {
+    themePreference = getThemeFromDom() ?? getThemePreference();
+  });
 
   async function createRoom() {
     const trimmedPassword = password.trim();
@@ -48,6 +61,36 @@
 <svelte:head>
   <title>voca.vc</title>
 </svelte:head>
+
+<div class="theme-toggle" role="group" aria-label="Color theme">
+  <button
+    type="button"
+    class:active={themePreference === "light"}
+    aria-pressed={themePreference === "light"}
+    aria-label="Use light theme"
+    onclick={() => setTheme("light")}
+  >
+    <Sun class="theme-icon" strokeWidth={1.8} />
+  </button>
+  <button
+    type="button"
+    class:active={themePreference === "dark"}
+    aria-pressed={themePreference === "dark"}
+    aria-label="Use dark theme"
+    onclick={() => setTheme("dark")}
+  >
+    <Moon class="theme-icon" strokeWidth={1.8} />
+  </button>
+  <button
+    type="button"
+    class:active={themePreference === "system"}
+    aria-pressed={themePreference === "system"}
+    aria-label="Use system theme"
+    onclick={() => setTheme("system")}
+  >
+    <Monitor class="theme-icon" strokeWidth={1.8} />
+  </button>
+</div>
 
 <main class="min-h-screen flex flex-col items-center justify-center p-8">
   <div class="brutalist-box max-w-lg w-full text-center">
