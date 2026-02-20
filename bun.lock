@@ -13,7 +13,7 @@
       "version": "0.0.1",
       "dependencies": {
         "@lucide/svelte": "^0.574.0",
-        "@treyorr/voca-svelte": "^0.3.0",
+        "@treyorr/voca-svelte": "^0.4.0",
       },
       "devDependencies": {
         "@sveltejs/kit": "^2.49.2",
@@ -29,7 +29,7 @@
     },
     "packages/voca-client": {
       "name": "@treyorr/voca-client",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "dependencies": {
         "nanoevents": "^9.1.0",
       },
@@ -39,7 +39,7 @@
     },
     "packages/voca-react": {
       "name": "@treyorr/voca-react",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "dependencies": {
         "@treyorr/voca-client": "^0.3.0",
       },
@@ -54,9 +54,9 @@
     },
     "packages/voca-svelte": {
       "name": "@treyorr/voca-svelte",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "dependencies": {
-        "@treyorr/voca-client": "^0.3.0",
+        "@treyorr/voca-client": "^0.4.0",
       },
       "devDependencies": {
         "@sveltejs/package": "^2.3.7",
