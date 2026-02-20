@@ -1,6 +1,11 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { getThemeFromDom, getThemePreference, setThemePreference, type ThemePreference } from "$lib/theme";
+  import {
+    getThemeFromDom,
+    getThemePreference,
+    setThemePreference,
+    type ThemePreference,
+  } from "$lib/theme";
   import { Monitor, Moon, Sun } from "@lucide/svelte";
   import { VocaClient, validatePassword } from "@treyorr/voca-svelte";
   import { onMount } from "svelte";
@@ -127,7 +132,7 @@
           type="text"
           bind:value={password}
           placeholder="4-12 chars, letters/numbers only"
-          class="w-full border-2 border-black px-3 py-2 text-sm font-mono"
+          class="w-full border-2 border-voca-border px-3 py-2 text-sm font-mono"
           disabled={isCreating}
           maxlength="12"
         />
@@ -135,7 +140,9 @@
     {/if}
 
     {#if error}
-      <p class="mt-4 text-sm border border-black p-2 bg-black text-white">
+      <p
+        class="mt-4 text-sm border border-voca-border p-2 bg-voca-fg text-voca-bg"
+      >
         ERROR: {error}
       </p>
     {/if}

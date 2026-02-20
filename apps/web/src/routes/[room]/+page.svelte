@@ -88,9 +88,11 @@
 <!-- Password Modal - shown when password is required or incorrect -->
 {#if needsPassword}
   <div
-    class="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4"
+    class="fixed inset-0 flex items-center justify-center z-[100] p-4 modal-overlay backdrop-blur-md"
   >
-    <div class="bg-white border-4 border-black p-8 max-w-md w-full">
+    <div
+      class="border-4 border-voca-border bg-voca-bg text-voca-fg p-8 max-w-md w-full"
+    >
       <h1 class="text-2xl font-bold mb-4 font-mono">
         {isPasswordWrong ? "INCORRECT PASSWORD" : "PASSWORD REQUIRED"}
       </h1>
@@ -109,7 +111,7 @@
           type="password"
           bind:value={passwordInput}
           placeholder="Enter password"
-          class="w-full border-2 border-black px-3 py-2 text-sm font-mono mb-4"
+          class="brutalist-input w-full mb-4"
           autofocus
         />
         <div class="flex gap-2">
@@ -132,14 +134,16 @@
 <!-- Error Overlay (non-password errors) -->
 {#if room?.status === "error" && !needsPassword}
   <div
-    class="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4"
+    class="fixed inset-0 flex items-center justify-center z-[100] p-4 modal-overlay backdrop-blur-md"
   >
-    <div class="bg-white border-4 border-black p-8 max-w-md w-full text-center">
+    <div
+      class="border-4 border-voca-border bg-voca-bg text-voca-fg p-8 max-w-md w-full text-center"
+    >
       <h1 class="text-4xl font-bold mb-4 font-mono">ERROR</h1>
       <p class="text-sm mb-4">
         {room.error ?? "An unexpected error occurred"}
       </p>
-      <div class="bg-black text-white px-2 py-1 text-xs mb-4 inline-block">
+      <div class="bg-voca-fg text-voca-bg px-2 py-1 text-xs mb-4 inline-block">
         {room.errorCode ?? "UNKNOWN"}
       </div>
       <div class="flex gap-2 justify-center flex-wrap">
@@ -157,9 +161,11 @@
 <!-- Room Full Overlay -->
 {#if room?.status === "full"}
   <div
-    class="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-4"
+    class="fixed inset-0 flex items-center justify-center z-[100] p-4 modal-overlay backdrop-blur-md"
   >
-    <div class="bg-white border-4 border-black p-8 max-w-md w-full text-center">
+    <div
+      class="border-4 border-voca-border bg-voca-bg text-voca-fg p-8 max-w-md w-full text-center"
+    >
       <h1 class="text-4xl font-bold mb-4 font-mono">ROOM FULL</h1>
       <p class="text-sm mb-4">
         {room.error ?? "This room is at maximum capacity"}
@@ -248,7 +254,7 @@
         <p class="text-sm">No peers connected yet.</p>
         <p class="text-xs mt-2">Share the link to invite others.</p>
         <pre
-          class="mt-4 text-xs bg-black text-white p-2 inline-block">{typeof window !==
+          class="mt-4 text-xs bg-voca-fg text-voca-bg p-2 inline-block">{typeof window !==
           "undefined"
             ? window.location.href
             : `voca.vc/${roomId}`}</pre>
@@ -257,7 +263,7 @@
   {/if}
 
   <footer
-    class="fixed bottom-0 left-0 right-0 p-4 text-xs text-center border-t border-black bg-white"
+    class="fixed bottom-0 left-0 right-0 p-4 text-xs text-center border-t border-voca-border bg-voca-bg text-voca-fg"
   >
     <pre>STATUS: {room?.getStatusLabel() ??
         "LOADING"} | PEERS: {room?.peerCount ?? 1}/{room?.roomCapacity ??

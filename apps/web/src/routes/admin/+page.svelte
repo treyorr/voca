@@ -12,7 +12,7 @@
     let rooms = $state<{ id: string; peers: number }[]>([]);
     let logs = $state<string[]>([]);
     let loading = $state(false);
-    let activeTab = $state<'rooms' | 'logs'>('rooms');
+    let activeTab = $state<"rooms" | "logs">("rooms");
 
     function formatUptime(seconds: number) {
         const h = Math.floor(seconds / 3600);
@@ -56,7 +56,7 @@
             sessionStorage.setItem("voca_admin_token", token);
 
             // Fetch metrics initially too
-             try {
+            try {
                 const mRes = await fetch(`${apiHost}/api/admin/metrics`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
@@ -96,7 +96,7 @@
             }
 
             // Fetch logs if on logs tab
-            if (activeTab === 'logs') {
+            if (activeTab === "logs") {
                 const logsRes = await fetch(`${apiHost}/api/admin/logs`, {
                     headers: { Authorization: `Bearer ${savedToken}` },
                 });
@@ -152,14 +152,21 @@
                 <!-- Tab Navigation -->
                 <div class="flex gap-2">
                     <button
-                        class="brutalist-button {activeTab === 'rooms' ? 'bg-black text-white' : ''}"
-                        onclick={() => activeTab = 'rooms'}
+                        class="brutalist-button {activeTab === 'rooms'
+                            ? 'bg-voca-fg text-voca-bg'
+                            : ''}"
+                        onclick={() => (activeTab = "rooms")}
                     >
                         [ ROOMS ]
                     </button>
                     <button
-                        class="brutalist-button {activeTab === 'logs' ? 'bg-black text-white' : ''}"
-                        onclick={() => { activeTab = 'logs'; fetchRooms(); }}
+                        class="brutalist-button {activeTab === 'logs'
+                            ? 'bg-voca-fg text-voca-bg'
+                            : ''}"
+                        onclick={() => {
+                            activeTab = "logs";
+                            fetchRooms();
+                        }}
                     >
                         [ LOGS ]
                     </button>
@@ -189,36 +196,50 @@
                 {loading ? "[ CHECKING... ]" : "[ LOGIN ]"}
             </button>
             {#if error}
-                <p class="mt-4 text-sm bg-black text-white p-2">
+                <p class="mt-4 text-sm bg-voca-fg text-voca-bg p-2">
                     ERROR: {error}
                 </p>
             {/if}
         </div>
     {:else}
-        {#if activeTab === 'rooms'}
+        {#if activeTab === "rooms"}
             <div class="brutalist-box mt-4">
                 <h2 class="font-bold mb-4">SYSTEM METRICS</h2>
                 {#if metrics}
                     <div class="grid grid-cols-2 gap-4 mb-8">
-                        <div class="p-2 border border-black">
+                        <div class="p-2 border border-voca-border">
                             <p class="text-xs text-gray-500">ACTIVE ROOMS</p>
-                            <p class="text-xl font-bold">{metrics.active_rooms}</p>
+                            <p class="text-xl font-bold">
+                                {metrics.active_rooms}
+                            </p>
                         </div>
-                        <div class="p-2 border border-black">
-                            <p class="text-xs text-gray-500">ACTIVE CONNECTIONS</p>
-                            <p class="text-xl font-bold">{metrics.active_connections}</p>
+                        <div class="p-2 border border-voca-border">
+                            <p class="text-xs text-gray-500">
+                                ACTIVE CONNECTIONS
+                            </p>
+                            <p class="text-xl font-bold">
+                                {metrics.active_connections}
+                            </p>
                         </div>
-                        <div class="p-2 border border-black">
+                        <div class="p-2 border border-voca-border">
                             <p class="text-xs text-gray-500">ROOMS TODAY</p>
-                            <p class="text-xl font-bold">{metrics.rooms_created_today}</p>
+                            <p class="text-xl font-bold">
+                                {metrics.rooms_created_today}
+                            </p>
                         </div>
-                        <div class="p-2 border border-black">
-                            <p class="text-xs text-gray-500">CONNECTIONS TODAY</p>
-                            <p class="text-xl font-bold">{metrics.connections_today}</p>
+                        <div class="p-2 border border-voca-border">
+                            <p class="text-xs text-gray-500">
+                                CONNECTIONS TODAY
+                            </p>
+                            <p class="text-xl font-bold">
+                                {metrics.connections_today}
+                            </p>
                         </div>
-                        <div class="col-span-2 p-2 border border-black">
+                        <div class="col-span-2 p-2 border border-voca-border">
                             <p class="text-xs text-gray-500">UPTIME</p>
-                            <p class="font-mono">{formatUptime(metrics.uptime_seconds)}</p>
+                            <p class="font-mono">
+                                {formatUptime(metrics.uptime_seconds)}
+                            </p>
                         </div>
                     </div>
                 {/if}
@@ -229,7 +250,7 @@
                 {:else}
                     <table class="w-full text-left">
                         <thead>
-                            <tr class="border-b border-black">
+                            <tr class="border-b border-voca-border">
                                 <th class="p-2">ROOM ID</th>
                                 <th class="p-2">PEERS</th>
                                 <th class="p-2">LINK</th>
@@ -237,7 +258,7 @@
                         </thead>
                         <tbody>
                             {#each rooms as room}
-                                <tr class="border-b border-black">
+                                <tr class="border-b border-voca-border">
                                     <td class="p-2 font-mono">{room.id}</td>
                                     <td class="p-2">{room.peers}</td>
                                     <td class="p-2">
@@ -254,16 +275,21 @@
             </div>
         {/if}
 
-        {#if activeTab === 'logs'}
-        <!-- Logs Viewer -->
-        <div class="brutalist-box mt-4">
-            <h2 class="font-bold mb-4">SERVER LOGS (Last 500 lines)</h2>
-            {#if logs.length === 0}
-                <p class="text-sm">No logs available or log directory not configured.</p>
-            {:else}
-                <pre class="text-xs overflow-auto max-h-[600px] bg-black text-green-400 p-4 font-mono">{logs.join('\n')}</pre>
-            {/if}
-        </div>
+        {#if activeTab === "logs"}
+            <!-- Logs Viewer -->
+            <div class="brutalist-box mt-4">
+                <h2 class="font-bold mb-4">SERVER LOGS (Last 500 lines)</h2>
+                {#if logs.length === 0}
+                    <p class="text-sm">
+                        No logs available or log directory not configured.
+                    </p>
+                {:else}
+                    <pre
+                        class="text-xs overflow-auto max-h-[600px] bg-black text-green-400 p-4 font-mono">{logs.join(
+                            "\n",
+                        )}</pre>
+                {/if}
+            </div>
         {/if}
     {/if}
 </main>
