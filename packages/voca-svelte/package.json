@@ -1,6 +1,6 @@
 {
     "name": "@treyorr/voca-svelte",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "description": "Svelte 5 Runes wrapper for Voca Client SDK",
     "svelte": "./dist/index.svelte.js",
     "types": "./dist/index.svelte.d.ts",
