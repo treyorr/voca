@@ -28,17 +28,20 @@ export interface Peer {
     connection: RTCPeerConnection;
     audioLevel: number;
     stream?: MediaStream;
+    remoteMuted?: boolean;
+    localMuted?: boolean;
 }
 
 type SignalMessage = {
     from: string;
-    type: 'hello' | 'welcome' | 'join' | 'leave' | 'offer' | 'answer' | 'ice' | 'ping' | 'pong' | 'error';
+    type: 'hello' | 'welcome' | 'join' | 'leave' | 'offer' | 'answer' | 'ice' | 'ping' | 'pong' | 'error' | 'mute';
     peer_id?: string;
     to?: string;
     sdp?: string;
     candidate?: string;
     code?: string;
     message?: string;
+    muted?: boolean;
     // Protocol versioning
     version?: string;
     client?: string;
@@ -53,6 +56,8 @@ interface VocaEvents {
     'peer-audio-level': (peerId: string, level: number) => void;
     'local-audio-level': (level: number) => void;
     'track': (peerId: string, track: MediaStreamTrack, stream: MediaStream) => void;
+    'peer-mute': (peerId: string, isMuted: boolean) => void;
+    'peer-local-mute': (peerId: string, isMuted: boolean) => void;
 }
 
 /**
@@ -99,7 +104,7 @@ export class VocaClient {
     private shouldReconnect = true;
 
     // Audio analysis nodes per peer (for cleanup)
-    private peerAnalysers: Map<string, { source: MediaStreamAudioSourceNode; analyser: AnalyserNode }> = new Map();
+    private peerAnalysers: Map<string, { source: MediaStreamAudioSourceNode; analyser: AnalyserNode; gainNode: GainNode }> = new Map();
 
     /**
      * Create a new room and return a VocaClient connected to it.
@@ -235,8 +240,29 @@ export class VocaClient {
         if (track) {
             track.enabled = !track.enabled;
             this.isMuted = !track.enabled;
+            // Broadcast our mute state to everyone else
+            this.send({ type: 'mute', muted: this.isMuted });
         }
         return this.isMuted;
+    }
+
+    public togglePeerMute(peerId: string) {
+        const peer = this.peers.get(peerId);
+        if (!peer) return false;
+
+        const isCurrentlyMuted = peer.localMuted ?? false;
+        const newMutedState = !isCurrentlyMuted;
+        peer.localMuted = newMutedState;
+
+        // Update the gain node
+        const audioNodes = this.peerAnalysers.get(peerId);
+        if (audioNodes) {
+            // Mute by dropping gain to 0, unmute by setting back to 1
+            audioNodes.gainNode.gain.value = newMutedState ? 0 : 1;
+        }
+
+        this.events.emit('peer-local-mute', peerId, newMutedState);
+        return newMutedState;
     }
 
 
@@ -380,6 +406,10 @@ export class VocaClient {
                 break;
             case 'join':
                 await this.createPeer(msg.from, true);
+                if (this.isMuted) {
+                    // Send our mute state specifically to the joined peer
+                    this.send({ type: 'mute', to: msg.from, muted: true });
+                }
                 break;
             case 'offer':
                 await this.createPeer(msg.from, false, msg.sdp);
@@ -406,6 +436,13 @@ export class VocaClient {
             case 'leave':
                 this.removePeer(msg.from);
                 break;
+            case 'mute':
+                const mutePeer = this.peers.get(msg.from);
+                if (mutePeer) {
+                    mutePeer.remoteMuted = msg.muted ?? false;
+                    this.events.emit('peer-mute', msg.from, mutePeer.remoteMuted);
+                }
+                break;
             case 'error':
                 this.handleError(msg.code ?? 'unknown', msg.message ?? 'Unknown error');
                 break;
@@ -430,7 +467,7 @@ export class VocaClient {
         // Add local tracks
         this.localStream?.getTracks().forEach((track) => pc.addTrack(track, this.localStream!));
 
-        this.peers.set(peerId, { id: peerId, connection: pc, audioLevel: 0 });
+        this.peers.set(peerId, { id: peerId, connection: pc, audioLevel: 0, remoteMuted: false, localMuted: false });
         this.events.emit('peer-joined', peerId);
 
         if (isInitiator) {
@@ -455,6 +492,7 @@ export class VocaClient {
         if (audio) {
             audio.source.disconnect();
             audio.analyser.disconnect();
+            audio.gainNode.disconnect();
             this.peerAnalysers.delete(peerId);
         }
 
@@ -470,13 +508,24 @@ export class VocaClient {
         const source = this.audioContext.createMediaStreamSource(stream);
         const analyser = this.audioContext.createAnalyser();
         analyser.fftSize = 256;
+
+        // Create a GainNode for local muting
+        const gainNode = this.audioContext.createGain();
+
+        // Check if the peer is already locally muted (in case they reconnect)
+        const peer = this.peers.get(peerId);
+        if (peer?.localMuted) {
+            gainNode.gain.value = 0;
+        }
+
         source.connect(analyser);
+        analyser.connect(gainNode);
 
         // CRITICAL: Connect to speakers so audio is actually played!
-        source.connect(this.audioContext.destination);
+        gainNode.connect(this.audioContext.destination);
 
         // Store for cleanup when peer leaves
-        this.peerAnalysers.set(peerId, { source, analyser });
+        this.peerAnalysers.set(peerId, { source, analyser, gainNode });
 
         const data = new Uint8Array(analyser.frequencyBinCount);
         const update = () => {

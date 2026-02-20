@@ -19,6 +19,7 @@ pub enum SignalPayload {
     Offer { to: String, sdp: String },
     Answer { to: String, sdp: String },
     Ice { to: String, candidate: String },
+    Mute { muted: bool },
     Ping,
     Pong,
     Error { code: String, message: String },

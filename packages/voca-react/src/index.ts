@@ -22,6 +22,8 @@ export interface UseVocaRoomResult {
     localAudioLevel: number;
     /** Toggle local audio mute */
     toggleMute: () => void;
+    /** Toggle local playback mute for a specific peer */
+    togglePeerMute: (peerId: string) => void;
     /** Disconnect from room */
     disconnect: () => void;
 }
@@ -43,6 +45,14 @@ export interface UseVocaRoomResult {
  *             <p>Status: {status}</p>
  *             <p>Peers: {peers.size}</p>
  *             <button onClick={toggleMute}>{isMuted ? 'Unmute' : 'Mute'}</button>
+ *             {Array.from(peers.entries()).map(([id, peer]) => (
+ *                  <div key={id}>
+ *                      Peer {id} 
+ *                      <button onClick={() => togglePeerMute(id)}>
+ *                          {peer.localMuted ? 'Unmute' : 'Mute'}
+ *                      </button>
+ *                  </div>
+ *             ))}
  *         </div>
  *     );
  * }
@@ -65,6 +75,8 @@ export function useVocaRoom(roomId: string, config?: VocaConfig): UseVocaRoomRes
         const unsubPeerLeft = client.on('peer-left', () => setPeers(new Map(client.peers)));
         const unsubPeerAudio = client.on('peer-audio-level', () => setPeers(new Map(client.peers)));
         const unsubLocalAudio = client.on('local-audio-level', setLocalAudioLevel);
+        const unsubPeerMute = client.on('peer-mute', () => setPeers(new Map(client.peers)));
+        const unsubPeerLocalMute = client.on('peer-local-mute', () => setPeers(new Map(client.peers)));
 
         // Connect to room
         client.connect()
@@ -78,12 +90,18 @@ export function useVocaRoom(roomId: string, config?: VocaConfig): UseVocaRoomRes
             unsubPeerLeft();
             unsubPeerAudio();
             unsubLocalAudio();
+            unsubPeerMute();
+            unsubPeerLocalMute();
             client.disconnect();
         };
     }, [client]);
 
     const toggleMute = useCallback(() => {
         setIsMuted(client.toggleMute());
+    }, [client]);
+
+    const togglePeerMute = useCallback((peerId: string) => {
+        client.togglePeerMute(peerId);
     }, [client]);
 
     const disconnect = useCallback(() => {
@@ -97,6 +115,7 @@ export function useVocaRoom(roomId: string, config?: VocaConfig): UseVocaRoomRes
         isMuted,
         localAudioLevel,
         toggleMute,
+        togglePeerMute,
         disconnect,
     };
 }

@@ -241,10 +241,30 @@
       {#each Array.from(room?.peers.entries() ?? []) as [peerId, peer]}
         <div class="peer-box" style={room?.getPulseStyle(peer.audioLevel)}>
           <div class="flex-1 min-w-0">
-            <p class="font-bold text-sm sm:text-base">PEER</p>
-            <p class="text-xs font-mono truncate">{peerId.slice(0, 6)}</p>
+            <div class="flex items-center gap-2">
+              <p class="font-bold text-sm sm:text-base">PEER</p>
+              <span class="font-mono text-xs opacity-70">
+                {peerId.slice(0, 6)}
+              </span>
+            </div>
+            <p class="text-xs">
+              {#if peer.remoteMuted}
+                [SELF-MUTED]
+              {:else}
+                [LIVE]
+              {/if}
+            </p>
           </div>
-          <div class="text-xs flex-shrink-0">[CONNECTED]</div>
+          <button
+            class="brutalist-button text-xs flex-shrink-0"
+            onclick={() => room?.togglePeerMute(peerId)}
+          >
+            {#if peer.localMuted}
+              [ UNMUTE ]
+            {:else}
+              [ MUTE ]
+            {/if}
+          </button>
         </div>
       {/each}
     </div>
