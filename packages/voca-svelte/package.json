@@ -37,7 +37,7 @@
         "access": "public"
     },
     "dependencies": {
-        "@treyorr/voca-client": "^0.3.0"
+        "@treyorr/voca-client": "^0.4.0"
     },
     "devDependencies": {
         "@sveltejs/package": "^2.3.7",
