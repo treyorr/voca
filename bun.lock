@@ -41,7 +41,7 @@
       "name": "@treyorr/voca-react",
       "version": "0.3.0",
       "dependencies": {
-        "@treyorr/voca-client": "*",
+        "@treyorr/voca-client": "^0.3.0",
       },
       "devDependencies": {
         "@types/react": "^19.2.7",

@@ -585,6 +585,7 @@ async fn run_forward_task(
                                 if to != &peer_id { continue; }
                             }
                             SignalPayload::Ping | SignalPayload::Pong => continue,
+                            SignalPayload::Mute { .. } => {} // Broadcast to everyone else
                             _ => {}
                         }
 

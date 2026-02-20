@@ -135,8 +135,18 @@ function VoiceRoom({ roomId }: { roomId: string }) {
       <p>Status: {status}</p>
       <p>Peers: {peers.size}</p>
       <button onClick={toggleMute}>
-        {isMuted ? 'Unmute' : 'Mute'}
+        {isMuted ? 'Unmute Mic' : 'Mute Mic'}
       </button>
+      
+      {/* Remote peers list */}
+      {Array.from(peers.entries()).map(([id, peer]) => (
+        <div key={id}>
+          Peer {id} 
+          <button onClick={() => togglePeerMute(id)}>
+            {peer.localMuted ? 'Unmute' : 'Mute'}
+          </button>
+        </div>
+      ))}
     </div>
   );
 }`}</pre>
@@ -184,7 +194,13 @@ client.on('peer-left', (peerId) => console.log('Peer left:', peerId));`}</pre>
 <p>Peers: {room.peerCount}</p>
 
 {#each Array.from(room.peers.entries()) as [id, peer]}
-  <div>Peer {id.slice(0, 6)} - Level: {peer.audioLevel}</div>
+  <div>
+    Peer {id.slice(0, 6)} - Level: {peer.audioLevel}
+    {#if peer.remoteMuted} <span>(Self-Muted)</span> {/if}
+    <button onclick={() => room.togglePeerMute(id)}>
+      {peer.localMuted ? 'Unmute Their Audio' : 'Mute Their Audio'}
+    </button>
+  </div>
 {/each}`}</pre>
   {:else}
     <pre
@@ -197,6 +213,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
     isMuted,
     localAudioLevel,
     toggleMute,
+    togglePeerMute,
     disconnect,
   } = useVocaRoom(roomId, {
     serverUrl: 'https://voca.vc',
@@ -211,11 +228,15 @@ function VoiceRoom({ roomId }: { roomId: string }) {
       {Array.from(peers.entries()).map(([id, peer]) => (
         <div key={id}>
           Peer {id.slice(0, 6)} - Level: {peer.audioLevel}
+          {peer.remoteMuted && <span> (Self-Muted)</span>}
+          <button onClick={() => togglePeerMute(id)}>
+            {peer.localMuted ? 'Unmute Their Audio' : 'Mute Their Audio'}
+          </button>
         </div>
       ))}
 
       <button onClick={toggleMute}>
-        {isMuted ? 'Unmute' : 'Mute'}
+        {isMuted ? 'Unmute Mic' : 'Mute Mic'}
       </button>
       <button onClick={disconnect}>Leave</button>
     </div>

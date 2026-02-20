@@ -55,6 +55,14 @@ export class VocaRoom {
         this.client.on('local-audio-level', (level: number) => {
             this.localAudioLevel = level;
         });
+
+        this.client.on('peer-mute', () => {
+            this.peers = new Map(this.client.peers);
+        });
+
+        this.client.on('peer-local-mute', () => {
+            this.peers = new Map(this.client.peers);
+        });
     }
 
     private updatePeers() {
@@ -81,6 +89,11 @@ export class VocaRoom {
 
     toggleMute() {
         this.isMuted = this.client.toggleMute();
+    }
+
+    togglePeerMute(peerId: string) {
+        this.client.togglePeerMute(peerId);
+        // Reactivity is handled by the 'peer-local-mute' listener
     }
 
     getPulseStyle(level: number) {

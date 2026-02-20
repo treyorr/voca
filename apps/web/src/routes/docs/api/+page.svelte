@@ -85,7 +85,14 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
     <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">toggleMute()</td>
       <td class="p-2">boolean</td>
-      <td class="p-2">Toggle mute, returns new state</td>
+      <td class="p-2">Toggle local microphone mute, returns new state</td>
+    </tr>
+    <tr class="border-t border-voca-border">
+      <td class="p-2 font-mono">togglePeerMute(peerId)</td>
+      <td class="p-2">boolean</td>
+      <td class="p-2"
+        >Toggle local playback mute for a specific peer, returns new state</td
+      >
     </tr>
     <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">on(event, callback)</td>
@@ -154,6 +161,14 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
     <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">local-audio-level</td>
       <td class="p-2">level: number (0-1)</td>
+    </tr>
+    <tr class="border-t border-voca-border">
+      <td class="p-2 font-mono">peer-mute</td>
+      <td class="p-2">(peerId: string, isMuted: boolean)</td>
+    </tr>
+    <tr class="border-t border-voca-border">
+      <td class="p-2 font-mono">peer-local-mute</td>
+      <td class="p-2">(peerId: string, isMuted: boolean)</td>
     </tr>
   </tbody>
 </table>
