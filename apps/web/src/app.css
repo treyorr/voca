@@ -201,6 +201,10 @@ div {
   opacity: 0.5;
 }
 
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 .brutalist-input {
   border: 1px solid var(--color-voca-border);
   background: var(--color-voca-bg);

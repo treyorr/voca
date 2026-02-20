@@ -39,13 +39,13 @@
 <div class="brutalist-box mb-6">
   {#if selectedSdk === "core"}
     <pre
-      class="bg-black text-white p-3 text-sm">npm install @treyorr/voca-client</pre>
+      class="bg-voca-fg text-voca-bg p-3 text-sm">npm install @treyorr/voca-client</pre>
   {:else if selectedSdk === "svelte"}
     <pre
-      class="bg-black text-white p-3 text-sm">npm install @treyorr/voca-svelte</pre>
+      class="bg-voca-fg text-voca-bg p-3 text-sm">npm install @treyorr/voca-svelte</pre>
   {:else}
     <pre
-      class="bg-black text-white p-3 text-sm">npm install @treyorr/voca-react</pre>
+      class="bg-voca-fg text-voca-bg p-3 text-sm">npm install @treyorr/voca-react</pre>
   {/if}
 </div>
 
@@ -57,7 +57,7 @@
 <div class="brutalist-box mb-6">
   {#if selectedSdk === "core"}
     <pre
-      class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { VocaClient } from '@treyorr/voca-client';
+      class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`import { VocaClient } from '@treyorr/voca-client';
 
 const client = await VocaClient.createRoom({
   serverUrl: 'https://voca.vc',
@@ -71,7 +71,7 @@ console.log('Room ID:', client.roomId);
 await client.connect();`}</pre>
   {:else if selectedSdk === "svelte"}
     <pre
-      class="bg-black text-white p-3 text-sm overflow-x-auto">{`<script lang="ts">
+      class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`\x3Cscript lang="ts">
   import { VocaClient, VocaRoom } from '@treyorr/voca-svelte';
   import { onDestroy } from 'svelte';
 
@@ -91,7 +91,7 @@ await client.connect();`}</pre>
   }
 
   onDestroy(() => room?.disconnect());
-</script>
+\x3C/script>
 
 {#if room?.isConnected}
   <p>Connected! Peers: {room.peerCount}</p>
@@ -103,7 +103,7 @@ await client.connect();`}</pre>
 {/if}`}</pre>
   {:else}
     <pre
-      class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { useState } from 'react';
+      class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`import { useState } from 'react';
 import { VocaClient, useVocaRoom } from '@treyorr/voca-react';
 
 function App() {
@@ -151,7 +151,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
 <div class="brutalist-box mb-6">
   {#if selectedSdk === "core"}
     <pre
-      class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { VocaClient } from '@treyorr/voca-client';
+      class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`import { VocaClient } from '@treyorr/voca-client';
 
 const client = new VocaClient('room-id-here', {
   serverUrl: 'https://voca.vc',
@@ -165,7 +165,7 @@ client.on('peer-joined', (peerId) => console.log('Peer joined:', peerId));
 client.on('peer-left', (peerId) => console.log('Peer left:', peerId));`}</pre>
   {:else if selectedSdk === "svelte"}
     <pre
-      class="bg-black text-white p-3 text-sm overflow-x-auto">{`<script lang="ts">
+      class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`\x3Cscript lang="ts">
   import { VocaRoom } from '@treyorr/voca-svelte';
   import { onMount, onDestroy } from 'svelte';
 
@@ -178,7 +178,7 @@ client.on('peer-left', (peerId) => console.log('Peer left:', peerId));`}</pre>
 
   onMount(() => room.connect());
   onDestroy(() => room.disconnect());
-</script>
+\x3C/script>
 
 <p>Status: {room.status}</p>
 <p>Peers: {room.peerCount}</p>
@@ -188,7 +188,7 @@ client.on('peer-left', (peerId) => console.log('Peer left:', peerId));`}</pre>
 {/each}`}</pre>
   {:else}
     <pre
-      class="bg-black text-white p-3 text-sm overflow-x-auto">{`import { useVocaRoom } from '@treyorr/voca-react';
+      class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`import { useVocaRoom } from '@treyorr/voca-react';
 
 function VoiceRoom({ roomId }: { roomId: string }) {
   const {
@@ -232,7 +232,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
     this API key:
   </p>
   <pre
-    class="bg-black text-white p-2 mt-2 text-xs inline-block">T8izjz8JpcWa3mtuhOFwprVk77uZKIzn</pre>
+    class="bg-voca-fg text-voca-bg p-2 mt-2 text-xs inline-block">T8izjz8JpcWa3mtuhOFwprVk77uZKIzn</pre>
   <p class="text-xs mt-2 italic">
     Running your own server? See <a href="/docs/self-hosting" class="underline"
       >self-hosting</a
@@ -242,7 +242,7 @@ function VoiceRoom({ roomId }: { roomId: string }) {
 
 <style>
   .btn-active {
-    background-color: black !important;
-    color: white !important;
+    background-color: var(--color-voca-fg) !important;
+    color: var(--color-voca-bg) !important;
   }
 </style>

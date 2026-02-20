@@ -12,7 +12,7 @@
 
 <div class="brutalist-box mb-4">
   <pre
-    class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = await VocaClient.createRoom({
+    class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`const client = await VocaClient.createRoom({
   serverUrl: 'https://voca.vc',
   apiKey: 'T8izjz8JpcWa3mtuhOFwprVk77uZKIzn',
   password: 'secret123' // Optional: 4-12 alphanumeric chars
@@ -26,12 +26,12 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
 
 <div class="brutalist-box mb-4">
   <pre
-    class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = new VocaClient('abc123', config);`}</pre>
+    class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`const client = new VocaClient('abc123', config);`}</pre>
 </div>
 
 <h4 class="font-bold mt-4 mb-2">Config Options</h4>
-<table class="w-full text-sm border-2 border-black mb-6">
-  <thead class="bg-black text-white">
+<table class="w-full text-sm border-2 border-voca-border mb-6">
+  <thead class="bg-voca-fg text-voca-bg">
     <tr>
       <th class="p-2 text-left">Option</th>
       <th class="p-2 text-left">Type</th>
@@ -39,22 +39,22 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
     </tr>
   </thead>
   <tbody>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">serverUrl</td>
       <td class="p-2">string</td>
       <td class="p-2">Server URL (https://voca.vc or your own)</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">apiKey</td>
       <td class="p-2">string</td>
       <td class="p-2">API key for authentication</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">password</td>
       <td class="p-2">string</td>
       <td class="p-2">Optional room password (4-12 alphanumeric characters)</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">reconnect</td>
       <td class="p-2">object</td>
       <td class="p-2">{`{ enabled, maxAttempts, baseDelayMs }`}</td>
@@ -63,8 +63,8 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
 </table>
 
 <h4 class="font-bold mt-4 mb-2">Methods</h4>
-<table class="w-full text-sm border-2 border-black mb-6">
-  <thead class="bg-black text-white">
+<table class="w-full text-sm border-2 border-voca-border mb-6">
+  <thead class="bg-voca-fg text-voca-bg">
     <tr>
       <th class="p-2 text-left">Method</th>
       <th class="p-2 text-left">Returns</th>
@@ -72,22 +72,22 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
     </tr>
   </thead>
   <tbody>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">connect()</td>
       <td class="p-2">Promise</td>
       <td class="p-2">Connect to room</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">disconnect()</td>
       <td class="p-2">void</td>
       <td class="p-2">Leave room</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">toggleMute()</td>
       <td class="p-2">boolean</td>
       <td class="p-2">Toggle mute, returns new state</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">on(event, callback)</td>
       <td class="p-2">Function</td>
       <td class="p-2">Subscribe to events, returns unsubscribe</td>
@@ -96,8 +96,8 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
 </table>
 
 <h4 class="font-bold mt-4 mb-2">Utility Functions</h4>
-<table class="w-full text-sm border-2 border-black mb-6">
-  <thead class="bg-black text-white">
+<table class="w-full text-sm border-2 border-voca-border mb-6">
+  <thead class="bg-voca-fg text-voca-bg">
     <tr>
       <th class="p-2 text-left">Function</th>
       <th class="p-2 text-left">Returns</th>
@@ -105,7 +105,7 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
     </tr>
   </thead>
   <tbody>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">validatePassword(pwd)</td>
       <td class="p-2">string | null</td>
       <td class="p-2"
@@ -116,42 +116,42 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
 </table>
 
 <h4 class="font-bold mt-4 mb-2">Events</h4>
-<table class="w-full text-sm border-2 border-black mb-6">
-  <thead class="bg-black text-white">
+<table class="w-full text-sm border-2 border-voca-border mb-6">
+  <thead class="bg-voca-fg text-voca-bg">
     <tr>
       <th class="p-2 text-left">Event</th>
       <th class="p-2 text-left">Payload</th>
     </tr>
   </thead>
   <tbody>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">status</td>
       <td class="p-2"
         >'connecting' | 'connected' | 'reconnecting' | 'disconnected' | 'error'
         | 'full'</td
       >
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">error</td>
       <td class="p-2">{`{ code: VocaErrorCode, message: string }`}</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">warning</td>
       <td class="p-2">{`{ code: string, message: string }`}</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">peer-joined</td>
       <td class="p-2">peerId: string</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">peer-left</td>
       <td class="p-2">peerId: string</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">peer-audio-level</td>
       <td class="p-2">(peerId: string, level: number)</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">local-audio-level</td>
       <td class="p-2">level: number (0-1)</td>
     </tr>
@@ -159,53 +159,53 @@ console.log(client.roomId); // e.g. "abc123"`}</pre>
 </table>
 
 <h2
-  class="text-2xl font-bold mt-12 mb-4 pt-4 border-t-2 border-black"
+  class="text-2xl font-bold mt-12 mb-4 pt-4 border-t-2 border-voca-border"
   id="error-codes"
 >
   Error Codes
 </h2>
 
-<table class="w-full text-sm border-2 border-black">
-  <thead class="bg-black text-white">
+<table class="w-full text-sm border-2 border-voca-border">
+  <thead class="bg-voca-fg text-voca-bg">
     <tr>
       <th class="p-2 text-left">Code</th>
       <th class="p-2 text-left">Description</th>
     </tr>
   </thead>
   <tbody>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">ROOM_FULL</td>
       <td class="p-2">Room has reached max capacity</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">ROOM_NOT_FOUND</td>
       <td class="p-2">Room does not exist</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">CONNECTION_FAILED</td>
       <td class="p-2">Failed to establish connection</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">WEBSOCKET_ERROR</td>
       <td class="p-2">WebSocket connection error</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">MICROPHONE_NOT_FOUND</td>
       <td class="p-2">No microphone detected</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">MICROPHONE_PERMISSION_DENIED</td>
       <td class="p-2">User denied microphone access</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">INSECURE_CONTEXT</td>
       <td class="p-2">HTTPS required</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">INVALID_PASSWORD</td>
       <td class="p-2">Incorrect password provided</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">PASSWORD_REQUIRED</td>
       <td class="p-2">Room requires a password</td>
     </tr>

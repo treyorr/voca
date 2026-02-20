@@ -11,7 +11,7 @@
 <div class="brutalist-box mb-6">
   <p class="font-bold text-sm mb-2">1. Pull & Run</p>
   <pre
-    class="bg-black text-white p-3 text-sm overflow-x-auto">{`docker run -p 3001:3001 \\
+    class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`docker run -p 3001:3001 \\
   -e VOCA_ADMIN_TOKEN=your-secret-token \\
   ghcr.io/treyorr/voca-signaling:latest`}</pre>
 </div>
@@ -19,15 +19,15 @@
 <div class="brutalist-box mb-6">
   <p class="font-bold text-sm mb-2">2. Point SDK to Your Server</p>
   <pre
-    class="bg-black text-white p-3 text-sm overflow-x-auto">{`const client = new VocaClient(roomId, {
+    class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`const client = new VocaClient(roomId, {
   serverUrl: 'https://your-domain.com',
 });`}</pre>
 </div>
 
 <h2 class="text-2xl font-bold mt-8 mb-4">Environment Variables</h2>
 
-<table class="w-full text-sm border-2 border-black mb-6">
-  <thead class="bg-black text-white">
+<table class="w-full text-sm border-2 border-voca-border mb-6">
+  <thead class="bg-voca-fg text-voca-bg">
     <tr>
       <th class="p-2 text-left">Variable</th>
       <th class="p-2 text-left">Required</th>
@@ -35,32 +35,32 @@
     </tr>
   </thead>
   <tbody>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">VOCA_ADMIN_TOKEN</td>
       <td class="p-2">YES</td>
       <td class="p-2">Token for admin API endpoints</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">VOCA_API_KEY</td>
       <td class="p-2">NO</td>
       <td class="p-2">Optional API key for room creation</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">VOCA_MAX_PEERS_PER_ROOM</td>
       <td class="p-2">NO</td>
       <td class="p-2">Default: 6</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">VOCA_MAX_GLOBAL_ROOMS</td>
       <td class="p-2">NO</td>
       <td class="p-2">Default: 10000</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">VOCA_LOG_DIR</td>
       <td class="p-2">NO</td>
       <td class="p-2">Log file directory</td>
     </tr>
-    <tr class="border-t border-black">
+    <tr class="border-t border-voca-border">
       <td class="p-2 font-mono">RUST_LOG</td>
       <td class="p-2">NO</td>
       <td class="p-2">Logging level: info, debug, trace</td>
@@ -72,7 +72,7 @@
 
 <div class="brutalist-box mb-6">
   <p class="font-bold text-sm mb-2">docker-compose.yml</p>
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`services:
+  <pre class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`services:
   signaling:
     image: ghcr.io/treyorr/voca-signaling:latest
     ports:
@@ -89,7 +89,8 @@
 <h2 class="text-2xl font-bold mt-8 mb-4">Building from Source</h2>
 
 <div class="brutalist-box mb-6">
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`# Clone repo
+  <pre
+    class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`# Clone repo
 git clone https://github.com/treyorr/voca
 cd voca/services/signaling
 
@@ -111,7 +112,7 @@ export VOCA_ADMIN_TOKEN=your-secret
 <div class="brutalist-box mb-6">
   <h3 class="font-bold mb-2">Available Endpoints</h3>
   <pre
-    class="bg-black text-white p-3 text-sm overflow-x-auto">{`# List active rooms
+    class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`# List active rooms
 curl -H "Authorization: Bearer \${VOCA_ADMIN_TOKEN}" \\
   https://your-domain.com/api/admin/rooms
 
@@ -130,7 +131,7 @@ curl -H "Authorization: Bearer \${VOCA_ADMIN_TOKEN}" \\
   <p class="text-sm mb-2">
     Use a reverse proxy (Caddy, Nginx, Traefik) for TLS termination:
   </p>
-  <pre class="bg-black text-white p-3 text-sm overflow-x-auto">{`# Caddyfile
+  <pre class="bg-voca-fg text-voca-bg p-3 text-sm overflow-x-auto">{`# Caddyfile
 voca.yourdomain.com {
     reverse_proxy localhost:3001
 }`}</pre>
