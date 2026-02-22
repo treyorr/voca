@@ -1,6 +1,6 @@
 {
   "name": "@treyorr/voca-client",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Voca WebRTC Client SDK",
   "main": "dist/index.js",
   "module": "dist/index.js",

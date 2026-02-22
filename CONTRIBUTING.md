@@ -187,26 +187,42 @@ docker build -f apps/web/Dockerfile -t voca-web .
 
 We use manual versioning and GitHub Releases to publish packages:
 
-1. **Bump versions** in all package.json files:
-   - `packages/voca-client/package.json`
-   - `packages/voca-react/package.json`
-   - `packages/voca-svelte/package.json`
+1. **Bump versions** across the codebase (e.g., to `0.4.1`):
+   - `packages/voca-client/package.json` (update `version`)
+   - `packages/voca-react/package.json` (update `version` + `@treyorr/voca-client` dependency)
+   - `packages/voca-svelte/package.json` (update `version` + `@treyorr/voca-client` dependency)
+   - `apps/web/package.json` (update `@treyorr/voca-svelte` dependency)
+   - `services/signaling/Cargo.toml` (update `version`)
 
-2. **Commit and push**:
+2. **Update Protocol Versions** in source files (these must match the version to ensure client/server handshake compatibility):
+   - `packages/voca-client/src/index.ts` (update `version` in the `hello` message)
+   - `services/signaling/src/handlers.rs` (update `version` in the `welcome` message)
+
+3. **Update Lockfiles & Build**:
    ```bash
-   git add packages/*/package.json
-   git commit -m "chore: bump version to 0.1.0"
+   # Update Bun lockfile
+   bun install
+   # Update Cargo lockfile
+   cd services/signaling && cargo check && cd ../..
+   # Verify builds
+   mise run build-packages
+   ```
+
+4. **Commit and push**:
+   ```bash
+   git add .
+   git commit -m "chore: bump version to 0.4.1"
    git push origin main
    ```
 
-3. **Create GitHub Release**:
+5. **Create GitHub Release**:
    - Go to https://github.com/treyorr/voca/releases/new
-   - Create a new tag (e.g., `v0.1.0`)
-   - Title: `v0.1.0`
+   - Create a new tag (e.g., `v0.4.1`)
+   - Title: `v0.4.1`
    - Describe what changed
    - Click "Publish release"
 
-4. **Automatic npm publish**:
+6. **Automatic npm publish**:
    - GitHub Actions will automatically build and publish to npm
    - Check the Actions tab to monitor progress
 
