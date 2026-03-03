@@ -234,14 +234,15 @@
       <!-- Local peer (you) -->
       <div class="peer-box" style={room?.getPulseStyle(room.localAudioLevel)}>
         <div class="flex-1 min-w-0">
-          <p class="font-bold text-sm sm:text-base">YOU</p>
-          <p class="text-xs">
-            {#if room?.isMuted}
-              [MUTED]
-            {:else}
-              [LIVE]
-            {/if}
-          </p>
+          <div class="flex items-center gap-2">
+            <span
+              class="status-dot"
+              class:live={!room?.isMuted}
+              class:is-muted={room?.isMuted}
+              data-tooltip={room?.isMuted ? "Muted" : "Live"}
+            ></span>
+            <p class="font-bold text-sm sm:text-base">YOU</p>
+          </div>
         </div>
         <button
           class="brutalist-button text-xs flex-shrink-0"
@@ -260,18 +261,21 @@
         <div class="peer-box" style={room?.getPulseStyle(peer.audioLevel)}>
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2">
+              <span
+                class="status-dot"
+                class:live={!peer.remoteMuted && !peer.localMuted}
+                class:is-muted={peer.remoteMuted || peer.localMuted}
+                data-tooltip={peer.remoteMuted
+                  ? "Self-muted"
+                  : peer.localMuted
+                    ? "Muted by you"
+                    : "Live"}
+              ></span>
               <p class="font-bold text-sm sm:text-base">PEER</p>
               <span class="font-mono text-xs opacity-70">
                 {peerId.slice(0, 6)}
               </span>
             </div>
-            <p class="text-xs">
-              {#if peer.remoteMuted}
-                [SELF-MUTED]
-              {:else}
-                [LIVE]
-              {/if}
-            </p>
           </div>
           <button
             class="brutalist-button text-xs flex-shrink-0"

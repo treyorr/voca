@@ -222,3 +222,58 @@ div {
 .brutalist-input::placeholder {
   color: #888;
 }
+
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.status-dot.live {
+  background-color: #4ade80;
+  box-shadow: 0 0 6px rgba(74, 222, 128, 0.6);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.status-dot.is-muted {
+  background-color: #a1a1aa;
+}
+
+/* Instant CSS tooltip */
+.status-dot[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 6px);
+  transform: translateX(-50%);
+  background: var(--color-voca-fg);
+  color: var(--color-voca-bg);
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  padding: 2px 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 10;
+}
+
+.status-dot[data-tooltip]:hover::after {
+  visibility: visible;
+}
+
+@keyframes pulse-dot {
+
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 6px rgba(74, 222, 128, 0.6);
+  }
+
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 2px rgba(74, 222, 128, 0.3);
+  }
+}
