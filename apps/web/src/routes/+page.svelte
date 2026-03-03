@@ -9,6 +9,7 @@
   import { Monitor, Moon, Sun } from "@lucide/svelte";
   import { VocaClient, validatePassword } from "@treyorr/voca-svelte";
   import { onMount } from "svelte";
+  import SoundSettings from "$lib/SoundSettings.svelte";
 
   let isCreating = $state(false);
   let error = $state<string | null>(null);
@@ -66,6 +67,8 @@
 <svelte:head>
   <title>voca.vc</title>
 </svelte:head>
+
+<SoundSettings />
 
 <div class="theme-toggle" role="group" aria-label="Color theme">
   <button
