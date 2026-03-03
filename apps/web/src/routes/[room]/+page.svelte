@@ -3,11 +3,29 @@
   import { goto } from "$app/navigation";
   import { VocaRoom } from "@treyorr/voca-svelte";
   import { onMount, onDestroy } from "svelte";
+  import { playJoinSound, playLeaveSound } from "$lib/sounds";
 
   const roomId = $derived(page.params.room);
   let room = $state<VocaRoom | null>(null);
   let passwordInput = $state("");
   let roomPassword = $state<string | undefined>(undefined);
+
+  // Track peer count to play join/leave sounds
+  let prevPeerSize = -1; // -1 = not yet initialized (skip initial load)
+  $effect(() => {
+    const currentSize = room?.peers.size ?? 0;
+    if (room?.status === "connected") {
+      if (prevPeerSize === -1) {
+        // First time seeing peers after connect — don't play sounds
+        prevPeerSize = currentSize;
+      } else if (currentSize > prevPeerSize) {
+        playJoinSound();
+      } else if (currentSize < prevPeerSize) {
+        playLeaveSound();
+      }
+      prevPeerSize = currentSize;
+    }
+  });
 
   // Config - SDK auto-converts http to ws
   const serverUrl = import.meta.env.DEV ? "http://localhost:3001" : undefined;
